@@ -1,0 +1,11 @@
+.done-true {
+  text-decoration: line-through;
+  color: grey;
+}
+
+  .horizontal-collapse {
+    height: 70px;
+  }
+  .navbar-collapse.in {
+    overflow-y: hidden;
+  }
