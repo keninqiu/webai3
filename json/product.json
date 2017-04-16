@@ -1,0 +1,8 @@
+[
+  { "id":1, "name":"MKBAG","price":100.1 },
+  { "id":2, "name":"COACHBAG","price":101.1 },
+  { "id":3, "name":"CHILDREN","price":102.1 },
+  { "id":4, "name":"BAOJIAN","price":103.1 },
+  { "id":5, "name":"CLOTHES","price":104.1 },
+  { "id":6, "name":"SHOES","price":105.1 }
+]

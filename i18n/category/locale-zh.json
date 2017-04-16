@@ -1,7 +1,8 @@
 {
   "HOTSALE": "热销商品",
-  "WOMEN": "女性用品",
-  "CHILDREN": "婴幼儿用品",
-  "MEN": "男性用品",
+  "WOMEN": "女性商品",
+  "CHILDREN": "婴幼儿商品",
+  "MEN": "男性商品",
+  "BRAND": "品牌商品",
   "GROUPON": "团购商品"
 }
