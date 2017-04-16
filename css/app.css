@@ -9,3 +9,7 @@
   .navbar-collapse.in {
     overflow-y: hidden;
   }
+
+  .card{
+  	border:1px solid #000
+  } 

@@ -1,0 +1,7 @@
+[
+  { "id":1, "name":"HOTSALE" },
+  { "id":2, "name":"WOMEN" },
+  { "id":3, "name":"CHILDREN" },
+  { "id":4, "name":"MEN" },
+  { "id":5, "name":"GROUPON" }
+]

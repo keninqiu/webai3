@@ -18,38 +18,22 @@
       <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
-            <span class="sr-only">MMMM</span>
+            <span class="sr-only"><p translate="TITLE"></p></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"><p translate="HEADLINE"></p></a>
+          <a class="navbar-brand" href="#"><p translate="TITLE"></p></a>
         </div>
         <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
           <ul class="nav navbar-nav">
-            <li><a href="#AAA"><p translate="HOTSALE"></p></a></li>
-            <li><a href="#AAA"><p translate="WOMEN"></p></a></li>
-            <li><a href="#AAA"><p translate="CHILDREN"></p></a></li>
-            <li><a href="#AAA"><p translate="MEN"></p></a></li>
-            <li><a href="#AAA"><p translate="GROUPON"></p></a></li>
+            <li ng-repeat="item in category">
+              <a href="/#!/category/{{item.id}}"><p translate="{{item.name}}"></p></a>
+            </li>
           </ul>
         </div>
       </nav>
       
-    </div>
-
-    <div ng-controller="CarouselCtrl">
-      <div style="height: 305px">
-        <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
-          <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
-            <img ng-src="{{slide.image}}" style="margin:auto;">
-            <div class="carousel-caption">
-              <h4>Slide {{slide.id}}</h4>
-              <p>{{slide.text}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div ng-view></div>

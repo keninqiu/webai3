@@ -7,26 +7,20 @@ app.config(['$translateProvider','$routeProvider', function($translateProvider,$
         }, {
             prefix: '/i18n/product/locale-',
             suffix: '.json'
+        }, {
+            prefix: '/i18n/setting/locale-',
+            suffix: '.json'
         }]
     });
-    $translateProvider.preferredLanguage('en');  
+    $translateProvider.preferredLanguage('zh');  
     $translateProvider.useSanitizeValueStrategy('escape');
 
     $routeProvider
     .when("/", {
-        templateUrl : "main.html"
+        templateUrl : "template/main.html"
     })
-    .when("/women", {
-        templateUrl : "women.html"
-    })
-    .when("/children", {
-        templateUrl : "children.html"
-    })
-    .when("/men", {
-        templateUrl : "men.html"
-    })
-    .when("/groupon", {
-        templateUrl : "groupon.html"
-    })    
+    .when("/category/:id", {
+        templateUrl : "template/category.html"
+    })  
     ;  
 }]);
