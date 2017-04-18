@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Product;
+use app\models\Locale;
 
 /**
- * ProductSearch represents the model behind the search form about `app\models\Product`.
+ * LocaleSearch represents the model behind the search form about `app\models\Locale`.
  */
-class ProductSearch extends Product
+class LocaleSearch extends Locale
 {
     /**
      * @inheritdoc
@@ -19,8 +19,7 @@ class ProductSearch extends Product
     {
         return [
             [['id'], 'integer'],
-            [['name','description'], 'safe'],
-            [['price'], 'number'],
+            [['code', 'value'], 'safe'],
         ];
     }
 
@@ -42,7 +41,7 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
-        $query = Product::find();
+        $query = Locale::find();
 
         // add conditions that should always apply here
 
@@ -61,11 +60,11 @@ class ProductSearch extends Product
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'price' => $this->price,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
-        $query->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'value', $this->value]);
+
         return $dataProvider;
     }
 }

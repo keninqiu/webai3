@@ -15,6 +15,10 @@ use Yii;
 class ProductImage extends \yii\db\ActiveRecord
 {
     /**
+     * @var UploadedFile
+     */
+    public $imageFile;    
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -28,9 +32,14 @@ class ProductImage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+        
             [['product_id', 'path'], 'required'],
             [['product_id', 'type'], 'integer'],
-            [['path'], 'string', 'max' => 500],
+            
+            [['path'], 'string'],
+            
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+        
         ];
     }
 
@@ -46,4 +55,16 @@ class ProductImage extends \yii\db\ActiveRecord
             'path' => 'Path',
         ];
     }
+
+    public function upload()
+    {
+        $image = '/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+        $this->path = '/admin'.$image;
+        if ($this->validate()) {
+            $this->imageFile->saveAs(Yii::getAlias('@app') . $image);
+            return true;
+        } else {
+            return false;
+        }
+    }    
 }

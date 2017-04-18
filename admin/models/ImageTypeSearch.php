@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Product;
+use app\models\ImageType;
 
 /**
- * ProductSearch represents the model behind the search form about `app\models\Product`.
+ * ImageTypeSearch represents the model behind the search form about `app\models\ImageType`.
  */
-class ProductSearch extends Product
+class ImageTypeSearch extends ImageType
 {
     /**
      * @inheritdoc
@@ -19,8 +19,7 @@ class ProductSearch extends Product
     {
         return [
             [['id'], 'integer'],
-            [['name','description'], 'safe'],
-            [['price'], 'number'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -42,7 +41,7 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
-        $query = Product::find();
+        $query = ImageType::find();
 
         // add conditions that should always apply here
 
@@ -61,11 +60,10 @@ class ProductSearch extends Product
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'price' => $this->price,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
-        $query->andFilterWhere(['like', 'description', $this->description]);
+
         return $dataProvider;
     }
 }

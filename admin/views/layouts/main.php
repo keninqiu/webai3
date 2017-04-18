@@ -37,8 +37,12 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Locale', 'url' => ['/locale']],
+            ['label' => 'Image Type', 'url' => ['/image-type']],
             ['label' => 'Product', 'url' => ['/product']],
+            ['label' => 'Product Locale', 'url' => ['/product-locale']],
             ['label' => 'Category', 'url' => ['/category']],
+            ['label' => 'Category Locale', 'url' => ['/category-locale']],
             ['label' => 'Category Product', 'url' => ['/category-product']],
             ['label' => 'Product Image', 'url' => ['/product-image']],
             Yii::$app->user->isGuest ? (

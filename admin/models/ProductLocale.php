@@ -5,21 +5,21 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "product".
+ * This is the model class for table "product_locale".
  *
  * @property integer $id
+ * @property integer $locale_id
  * @property string $name
- * @property string $description
- * @property string $price
+ * @property string $value
  */
-class Product extends \yii\db\ActiveRecord
+class ProductLocale extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'product';
+        return 'product_locale';
     }
 
     /**
@@ -28,10 +28,10 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price'], 'required'],
-            [['price'], 'number'],
+            [['locale_id', 'name', 'value'], 'required'],
+            [['locale_id'], 'integer'],
             [['name'], 'string', 'max' => 50],
-            [['description'], 'string'],
+            [['value'], 'string', 'max' => 1000],
         ];
     }
 
@@ -42,9 +42,9 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'locale_id' => 'Locale ID',
             'name' => 'Name',
-            'description' => 'Description',
-            'price' => 'Price',
+            'value' => 'Value',
         ];
     }
 }

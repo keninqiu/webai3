@@ -3,17 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\ProductImage;
-use app\models\ProductImageSearch;
+use app\models\Locale;
+use app\models\LocaleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
- * ProductImageController implements the CRUD actions for ProductImage model.
+ * LocaleController implements the CRUD actions for Locale model.
  */
-class ProductImageController extends Controller
+class LocaleController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,12 +30,12 @@ class ProductImageController extends Controller
     }
 
     /**
-     * Lists all ProductImage models.
+     * Lists all Locale models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProductImageSearch();
+        $searchModel = new LocaleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +45,7 @@ class ProductImageController extends Controller
     }
 
     /**
-     * Displays a single ProductImage model.
+     * Displays a single Locale model.
      * @param integer $id
      * @return mixed
      */
@@ -58,21 +57,16 @@ class ProductImageController extends Controller
     }
 
     /**
-     * Creates a new ProductImage model.
+     * Creates a new Locale model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ProductImage();
+        $model = new Locale();
 
-        if ($model->load(Yii::$app->request->post())) {
-
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->upload()) {
-                $model->save(false);
-                return $this->redirect(['view', 'id' => $model->id]);;
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -81,7 +75,7 @@ class ProductImageController extends Controller
     }
 
     /**
-     * Updates an existing ProductImage model.
+     * Updates an existing Locale model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -100,7 +94,7 @@ class ProductImageController extends Controller
     }
 
     /**
-     * Deletes an existing ProductImage model.
+     * Deletes an existing Locale model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -113,15 +107,15 @@ class ProductImageController extends Controller
     }
 
     /**
-     * Finds the ProductImage model based on its primary key value.
+     * Finds the Locale model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ProductImage the loaded model
+     * @return Locale the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ProductImage::findOne($id)) !== null) {
+        if (($model = Locale::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

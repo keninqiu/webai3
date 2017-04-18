@@ -5,21 +5,19 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "product".
+ * This is the model class for table "image_type".
  *
  * @property integer $id
  * @property string $name
- * @property string $description
- * @property string $price
  */
-class Product extends \yii\db\ActiveRecord
+class ImageType extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'product';
+        return 'image_type';
     }
 
     /**
@@ -28,10 +26,8 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price'], 'required'],
-            [['price'], 'number'],
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 50],
-            [['description'], 'string'],
         ];
     }
 
@@ -43,8 +39,6 @@ class Product extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'description' => 'Description',
-            'price' => 'Price',
         ];
     }
 }
