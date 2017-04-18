@@ -58,7 +58,12 @@ class ProductImage extends \yii\db\ActiveRecord
 
     public function upload()
     {
-        $image = '/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+        $imageDir = '/uploads/' . $this->product_id;
+        $imageAbsDir = Yii::getAlias('@app') . $imageDir;
+        if(!file_exists($imageAbsDir)) {
+            mkdir($imageAbsDir);
+        }
+        $image = $imageDir . '/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
         $this->path = '/admin'.$image;
         if ($this->validate()) {
             $this->imageFile->saveAs(Yii::getAlias('@app') . $image);
