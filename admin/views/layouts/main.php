@@ -38,6 +38,7 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Locale', 'url' => ['/locale']],
+            ['label' => 'Brand', 'url' => ['/brand']],
             ['label' => 'Image Type', 'url' => ['/image-type']],
             ['label' => 'Product', 'url' => ['/product']],
             ['label' => 'Product Locale', 'url' => ['/product-locale']],
