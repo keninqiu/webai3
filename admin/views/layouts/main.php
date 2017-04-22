@@ -37,7 +37,10 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Setting', 'url' => ['/setting']],
             ['label' => 'Locale', 'url' => ['/locale']],
+            ['label' => 'Position', 'url' => ['/position']],
+            ['label' => 'Slide', 'url' => ['/slide']],
             ['label' => 'Brand', 'url' => ['/brand']],
             ['label' => 'Image Type', 'url' => ['/image-type']],
             ['label' => 'Product', 'url' => ['/product']],
