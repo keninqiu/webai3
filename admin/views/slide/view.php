@@ -30,9 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'path',
             'text',
             'position_id',
+            [
+                'attribute'=>'path',
+                'value'=>$model->path,
+                'format' => ['image',['width'=>'100','height'=>'100']],
+            ],            
         ],
     ]) ?>
 

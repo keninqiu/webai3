@@ -15,12 +15,18 @@ use app\models\Position;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'path')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'text')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'position_id')->dropDownList(ArrayHelper::map(Position::find()->all(), 'id', 'name')) ?>
 
+    <?= $form->field($model, 'imageFile')->fileInput() ?>
+    <?php
+    if($model->path) {
+        echo '<img src="'.$model->path.'" height="100" width="100">';
+    }
+    
+    ?>
+    
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

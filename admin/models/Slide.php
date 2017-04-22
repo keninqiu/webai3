@@ -16,6 +16,11 @@ use Yii;
 class Slide extends \yii\db\ActiveRecord
 {
     /**
+     * @var UploadedFile
+     */
+    public $imageFile;   
+        
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -50,6 +55,24 @@ class Slide extends \yii\db\ActiveRecord
             'position_id' => Yii::t('app', 'Position'),
         ];
     }
+
+    public function upload()
+    {
+        $imageDir = '/uploads/slide';
+        $imageAbsDir = Yii::getAlias('@app') . $imageDir;
+        if(!file_exists($imageAbsDir)) {
+            mkdir($imageAbsDir);
+        }
+        $image = $imageDir . '/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+        $this->path = '/admin'.$image;
+        if ($this->validate()) {
+            $this->imageFile->saveAs(Yii::getAlias('@app') . $image);
+            return true;
+        } else {
+            return false;
+        }
+    } 
+
 
     public function getPosition() {
         return $this->hasOne(Position::className(), ['id' => 'position_id']);
