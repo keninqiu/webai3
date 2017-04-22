@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use app\models\Locale;
+use app\models\Product;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -14,9 +15,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'locale_id')->dropDownList(ArrayHelper::map(Locale::find()->all(), 'id', 'value')) ?>
+    <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name'), ['disabled' => 'disabled']) ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'locale_id')->dropDownList(ArrayHelper::map(Locale::find()->all(), 'id', 'value'), ['disabled' => 'disabled']) ?>
+
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true,'readonly' => true]) ?>
 
     <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
 

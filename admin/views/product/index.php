@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Brand;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductSearch */
@@ -26,8 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'description',
+            [
+                'attribute' => 'brand_id',
+                'value' => 'brand.name',
+                'filter' => Html::activeDropDownList($searchModel, 'brand_id', [''=>'']+ArrayHelper::map(Brand::find()->all(), 'id', 'name'), ['class' => 'form-control'])
+            ],
             'price',
+            'spec',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

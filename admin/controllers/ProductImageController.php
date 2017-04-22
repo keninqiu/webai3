@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\ProductImage;
+use app\models\ImageType;
 use app\models\ProductImageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

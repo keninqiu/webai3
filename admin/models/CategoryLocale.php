@@ -47,4 +47,8 @@ class CategoryLocale extends \yii\db\ActiveRecord
             'value' => 'Value',
         ];
     }
+
+    public function getLocale() {
+        return $this->hasOne(Locale::className(), ['id' => 'locale_id']);
+    }    
 }

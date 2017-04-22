@@ -11,6 +11,9 @@ use Yii;
  * @property string $name
  * @property string $description
  * @property string $price
+ * @property integer $brand_id 
+ * @property string $spec 
+ * @property string $source 
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -31,7 +34,8 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'price'], 'required'],
             [['price'], 'number'],
             [['name'], 'string', 'max' => 50],
-            [['description'], 'string'],
+            [['description','spec','source'], 'string'],
+            [['brand_id'], 'integer'],
         ];
     }
 
@@ -45,6 +49,13 @@ class Product extends \yii\db\ActiveRecord
             'name' => 'Name',
             'description' => 'Description',
             'price' => 'Price',
+            'brand_id' => 'Brand ID',
+            'spec' => 'Spec',
+            'source' => 'Source',
         ];
+    }
+
+    public function getBrand() {
+        return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
     }
 }

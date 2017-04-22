@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Product;
+use app\models\ProductLocale;
 use app\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -56,6 +57,35 @@ class ProductController extends Controller
         ]);
     }
 
+    public function addLocale($product_id,$name) {
+        $productLocale = new ProductLocale();
+        $productLocale["product_id"] = $product_id;
+        $productLocale["locale_id"] = 1;
+        $productLocale["name"] = $name;
+        $productLocale["value"] = $name;
+        $productLocale->save();
+
+        $productLocale = new ProductLocale();
+        $productLocale["product_id"] = $product_id;
+        $productLocale["locale_id"] = 2;
+        $productLocale["name"] = $name;
+        $productLocale["value"] = $name;
+        $productLocale->save();                
+    }
+    public function addLocales($model) {
+        $name = $model->name;
+        $description = $model->description;
+        $spec = $model->spec;
+        $this->addLocale($model->id,$name);
+        $this->addLocale($model->id,$description);
+        $this->addLocale($model->id,$spec);
+    }
+
+/*
+            [['locale_id'], 'integer'],
+            [['name'], 'string', 'max' => 50],
+            [['value'], 'string', 'max' => 1000],
+*/    
     /**
      * Creates a new Product model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -66,6 +96,7 @@ class ProductController extends Controller
         $model = new Product();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->addLocales($model);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -101,6 +132,7 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
+        ProductLocale::deleteAll(["product_id" => $id]);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

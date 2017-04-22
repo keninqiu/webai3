@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Product;
+use app\models\Locale;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductLocaleSearch */
@@ -25,7 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'locale_id',
+            [
+                'attribute' => 'product_id',
+                'value' => 'product.name',
+                'filter' => Html::activeDropDownList($searchModel, 'product_id', [''=>'']+ArrayHelper::map(Product::find()->all(), 'id', 'name'), ['class' => 'form-control'])
+            ],            
+            [
+                'attribute' => 'locale_id',
+                'value' => 'locale.value',
+                'filter' => Html::activeDropDownList($searchModel, 'locale_id', [''=>'']+ArrayHelper::map(Locale::find()->all(), 'id', 'value'), ['class' => 'form-control'])
+            ],
             'name',
             'value',
 

@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $product_id
- * @property integer $type
+ * @property integer $type_id
  * @property string $path
  */
 class ProductImage extends \yii\db\ActiveRecord
@@ -34,11 +34,11 @@ class ProductImage extends \yii\db\ActiveRecord
         return [
         
             [['product_id', 'path'], 'required'],
-            [['product_id', 'type'], 'integer'],
+            [['product_id', 'type_id'], 'integer'],
             
             [['path'], 'string'],
             
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg,jpeg'],
         
         ];
     }
@@ -50,8 +50,8 @@ class ProductImage extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'product_id' => 'Product ID',
-            'type' => 'Type',
+            'product_id' => 'Product',
+            'type_id' => 'Type',
             'path' => 'Path',
         ];
     }
@@ -71,5 +71,13 @@ class ProductImage extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    } 
+
+    public function getProduct() {
+        return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }    
+
+    public function getType() {
+        return $this->hasOne(ImageType::className(), ['id' => 'type_id']);
+    }          
 }

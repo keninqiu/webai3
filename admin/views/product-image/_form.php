@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name')) ?>
 
-    <?= $form->field($model, 'type')->dropDownList(ArrayHelper::map(ImageType::find()->all(), 'id', 'name')) ?>
+    <?= $form->field($model, 'type_id')->dropDownList(ArrayHelper::map(ImageType::find()->all(), 'id', 'name')) ?>
 
     <?= $form->field($model, 'imageFile')->fileInput() ?>
     <?php

@@ -18,7 +18,7 @@ class ProductImageSearch extends ProductImage
     public function rules()
     {
         return [
-            [['id', 'product_id', 'type'], 'integer'],
+            [['id', 'product_id', 'type_id'], 'integer'],
             [['path'], 'safe'],
         ];
     }
@@ -61,7 +61,7 @@ class ProductImageSearch extends ProductImage
         $query->andFilterWhere([
             'id' => $this->id,
             'product_id' => $this->product_id,
-            'type' => $this->type,
+            'type_id' => $this->type_id,
         ]);
 
         $query->andFilterWhere(['like', 'path', $this->path]);

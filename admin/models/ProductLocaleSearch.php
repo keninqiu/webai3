@@ -18,7 +18,7 @@ class ProductLocaleSearch extends ProductLocale
     public function rules()
     {
         return [
-            [['id', 'locale_id'], 'integer'],
+            [['id', 'locale_id','product_id'], 'integer'],
             [['name', 'value'], 'safe'],
         ];
     }
@@ -60,6 +60,7 @@ class ProductLocaleSearch extends ProductLocale
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'product_id' => $this->product_id,
             'locale_id' => $this->locale_id,
         ]);
 
