@@ -1,15 +1,15 @@
-app.controller('CarouselCtrl', function ($scope) {
+app.controller('CarouselCtrl', function ($scope,DataManager) {
   $scope.myInterval = 1000;
   $scope.noWrapSlides = false;
   $scope.active = 0;
   var slides = $scope.slides = [];
   var currIndex = 0;
 
-  $scope.addSlide = function() {
+  $scope.addSlide = function(item) {
     var newWidth = 600 + slides.length + 1;
     slides.push({
-      image: '//unsplash.it/' + newWidth + '/300',
-      text: ['Nice image','Awesome photograph','That is so cool','I love that'][slides.length % 4],
+      image: item.path,
+      text: item.text,
       id: currIndex++
     });
   };
@@ -19,9 +19,13 @@ app.controller('CarouselCtrl', function ($scope) {
     assignNewIndexesToSlides(indexes);
   };
 
-  for (var i = 0; i < 4; i++) {
-    $scope.addSlide();
-  }
+  DataManager.loadAll().then(function(data) {
+      var slide = data.slide;
+      for (var i = 0; i < slide.length; i++) {
+        $scope.addSlide(slide[i]);
+      }    
+  });  
+
 
   // Randomize logic below
 

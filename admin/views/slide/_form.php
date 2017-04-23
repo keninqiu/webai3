@@ -19,6 +19,8 @@ use app\models\Position;
 
     <?= $form->field($model, 'position_id')->dropDownList(ArrayHelper::map(Position::find()->all(), 'id', 'name')) ?>
 
+    <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'imageFile')->fileInput() ?>
     <?php
     if($model->path) {
@@ -26,7 +28,7 @@ use app\models\Position;
     }
     
     ?>
-    
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

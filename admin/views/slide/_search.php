@@ -23,6 +23,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'text') ?>
 
+    <?= $form->field($model, 'link') ?>
+
     <?= $form->field($model, 'position_id') ?>
 
     <div class="form-group">

@@ -11,6 +11,7 @@ use Yii;
  * @property string $name
  * @property string $path
  * @property string $text
+ * @property string $link 
  * @property integer $position_id
  */
 class Slide extends \yii\db\ActiveRecord
@@ -19,7 +20,7 @@ class Slide extends \yii\db\ActiveRecord
      * @var UploadedFile
      */
     public $imageFile;   
-        
+
     /**
      * @inheritdoc
      */
@@ -38,7 +39,7 @@ class Slide extends \yii\db\ActiveRecord
             [['position_id'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['path'], 'string', 'max' => 100],
-            [['text'], 'string', 'max' => 500],
+            [['text','link'], 'string', 'max' => 500],
         ];
     }
 
@@ -52,6 +53,7 @@ class Slide extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'path' => Yii::t('app', 'Path'),
             'text' => Yii::t('app', 'Text'),
+            'link' => Yii::t('app', 'Link'),
             'position_id' => Yii::t('app', 'Position'),
         ];
     }

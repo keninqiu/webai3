@@ -7,6 +7,7 @@ use app\models\Setting;
 use app\models\Category;
 use app\models\Product;
 use app\models\Brand;
+use app\models\Slide;
 use app\models\SettingSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -83,6 +84,7 @@ class SettingController extends Controller
             $price = $record["price"];
             $brand_id = $record["brand_id"];
             $spec = $record["spec"];
+            
             $product[] = [
                 "id" => $id,
                 "name" => $name,
@@ -90,6 +92,7 @@ class SettingController extends Controller
                 "price" => $price,
                 "brand_id" => $brand_id,
                 "spec" => $spec,
+                
             ];
         }
         $data["product"] = $product;  
@@ -106,9 +109,33 @@ class SettingController extends Controller
         }
         $data["brand"] = $brand;   
 
+        $records = Slide::find()->all();
+        $slide = [];
+        foreach($records as $record) {
+            $id = $record["id"];
+            $name = $record["name"];
+            $path = $record["path"];
+            $text = $record["text"];
+            $link = $record["link"];
+            $position_id = $record["position_id"];
+
+            $slide[] = [
+                "id" => $id,
+                "name" => $name,
+                "path" => $path,
+                "text" => $text,
+                "link" => $link,
+                "position_id" => $position_id
+            ];
+            
+        }
+        $data["slide"] = $slide;  
+
         $full = json_encode($data);
         $path = __DIR__ . "/../../json/data.json";
         file_put_contents($path, $full);
+
+        return "export data successfully!";
     }
 
     /**
