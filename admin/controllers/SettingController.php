@@ -33,6 +33,14 @@ class SettingController extends Controller
         ];
     }
 
+    public function querySql($query) {
+        $connection=Yii::$app->db; 
+        $command=$connection->createCommand($query);
+        $dataReader=$command->query(); // execute a query SQL   
+        $rows = $dataReader->readAll();
+        return $rows;
+    }
+
     /**
      * Lists all Setting models.
      * @return mixed
@@ -127,7 +135,6 @@ class SettingController extends Controller
                 "link" => $link,
                 "position_id" => $position_id
             ];
-            
         }
         $data["slide"] = $slide;  
 
@@ -135,8 +142,45 @@ class SettingController extends Controller
         $path = __DIR__ . "/../../json/data.json";
         file_put_contents($path, $full);
 
+        $locale = [];
+        $sql = "select setting_locale.name,setting_locale.value,locale.code from setting_locale,locale where setting_locale.locale_id=locale.id";
+        $records = self::querySql($sql);
+
+        foreach($records as $record) {
+            $name = $record["name"];
+            $value = $record["value"];
+            $code = $record["code"];
+            $locale[$code][] = [$name => $value];
+        }
+
+        $sql = "select category_locale.name,category_locale.value,locale.code from category_locale,locale where category_locale.locale_id=locale.id";
+        $records = self::querySql($sql);
+
+        foreach($records as $record) {
+            $name = $record["name"];
+            $value = $record["value"];
+            $code = $record["code"];
+            $locale[$code][] = [$name => $value];
+        }
+
+        foreach($locale as $index => $value) {
+            $full = "";
+            foreach($value as $codeName => $codeValue) {
+                $codeValue = json_encode($codeValue);
+                $codeValue = trim($codeValue,"{");
+                $codeValue = trim($codeValue,"}");
+                $full .= $codeValue.",";
+            }
+            $full = trim($full,",");
+            $full = "{".$full."}";
+            //$full = json_encode($value);
+            $path = __DIR__ . "/../../i18n/locale-$index.json";
+            file_put_contents($path, $full);
+        }
+
         return "export data successfully!";
     }
+
 
     /**
      * Displays a single Setting model.

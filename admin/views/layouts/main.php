@@ -38,7 +38,10 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Setting', 'url' => ['/setting']],
+            ['label' => 'Setting Locale', 'url' => ['/setting-locale']],
             ['label' => 'Locale', 'url' => ['/locale']],
+            ['label' => 'Mode', 'url' => ['/mode']],
+            ['label' => 'Mode Category', 'url' => ['/mode-category']],
             ['label' => 'Position', 'url' => ['/position']],
             ['label' => 'Slide', 'url' => ['/slide']],
             ['label' => 'Brand', 'url' => ['/brand']],

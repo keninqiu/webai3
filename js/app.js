@@ -2,13 +2,7 @@ var app = angular.module('app', ['ui.bootstrap','pascalprecht.translate','ngRout
 app.config(['$translateProvider','$routeProvider', function($translateProvider,$routeProvider) {
     $translateProvider.useStaticFilesLoader({
         files: [{
-            prefix: '/i18n/category/locale-',
-            suffix: '.json'
-        }, {
-            prefix: '/i18n/product/locale-',
-            suffix: '.json'
-        }, {
-            prefix: '/i18n/setting/locale-',
+            prefix: '/i18n/locale-',
             suffix: '.json'
         }]
     });

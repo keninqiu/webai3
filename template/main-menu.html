@@ -1,0 +1,21 @@
+	    <div ng-controller="CollapseCtrl">
+	      <nav class="navbar navbar-default" role="navigation">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+	            <span class="navbar-brand"><p translate="WEBSITE_TITLE"></p></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <h1 class="navbar-brand"><a href="#"><p translate="WEBSITE_TITLE"></p></a></h1>
+	        </div>
+	        <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+	          <ul class="nav navbar-nav">
+	            <li ng-repeat="item in category">
+	              <a href="/#!/category/{{item.id}}"><p translate="{{item.name}}"></p></a>
+	            </li>
+	          </ul>
+	        </div>
+	      </nav>
+	      
+	    </div>
