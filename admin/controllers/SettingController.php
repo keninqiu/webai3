@@ -83,7 +83,8 @@ class SettingController extends Controller
         }
         $data["category"] = $category;    
 
-        $records = Product::find()->all();
+        $sql = "select product.*,product_image.path from product,product_image where product_image.product_id=product.id";
+        $records = self::querySql($sql);
         $product = [];
         foreach($records as $record) {
             $id = $record["id"];
@@ -92,6 +93,7 @@ class SettingController extends Controller
             $price = $record["price"];
             $brand_id = $record["brand_id"];
             $spec = $record["spec"];
+            $path = $record["path"];
             
             $product[] = [
                 "id" => $id,
@@ -100,7 +102,7 @@ class SettingController extends Controller
                 "price" => $price,
                 "brand_id" => $brand_id,
                 "spec" => $spec,
-                
+                "path" => $path,
             ];
         }
         $data["product"] = $product;  
@@ -154,6 +156,16 @@ class SettingController extends Controller
         }
 
         $sql = "select category_locale.name,category_locale.value,locale.code from category_locale,locale where category_locale.locale_id=locale.id";
+        $records = self::querySql($sql);
+
+        foreach($records as $record) {
+            $name = $record["name"];
+            $value = $record["value"];
+            $code = $record["code"];
+            $locale[$code][] = [$name => $value];
+        }
+
+        $sql = "select product_locale.name,product_locale.value,locale.code from product_locale,locale where product_locale.locale_id=locale.id";
         $records = self::querySql($sql);
 
         foreach($records as $record) {
