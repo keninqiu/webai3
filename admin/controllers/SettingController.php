@@ -95,7 +95,7 @@ class SettingController extends Controller
             $spec = $record["spec"];
             $path = $record["path"];
             
-            $product[] = [
+            $product[$id] = [
                 "id" => $id,
                 "name" => $name,
                 "description" => $description,

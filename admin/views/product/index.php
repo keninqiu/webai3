@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Brand;
+use app\models\Origin;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -33,6 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'brand.name',
                 'filter' => Html::activeDropDownList($searchModel, 'brand_id', [''=>'']+ArrayHelper::map(Brand::find()->all(), 'id', 'name'), ['class' => 'form-control'])
             ],
+            [
+                'attribute' => 'origin_id',
+                'value' => 'origin.name',
+                'filter' => Html::activeDropDownList($searchModel, 'brand_id', [''=>'']+ArrayHelper::map(Origin::find()->all(), 'id', 'name'), ['class' => 'form-control'])
+            ],            
             'price',
             'spec',
 

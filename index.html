@@ -8,8 +8,11 @@
 	<meta name="keywords" content="" />
 	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!-- //Custom Theme files -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">	
 	<link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
 	<link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+	<link href="css/app.css" type="text/css" rel="stylesheet" media="all">
 	<!-- js -->
     <script src="node_modules/angular/angular.min.js"></script>
     <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
@@ -22,6 +25,7 @@
     <script src="js/ctrl/CarouselCtrl.js"></script>
     <script src="js/ctrl/CollapseCtrl.js"></script>
     <script src="js/ctrl/galleryCtrl.js"></script>
+    <script src="js/ctrl/productCtrl.js"></script>
     <script src="js/directive/mainMenu.js"></script>
     <script src="js/directive/headerInfo.js"></script>
     <script src="js/directive/banner.js"></script>
@@ -38,10 +42,12 @@
 		</div>
 	</div>
 	<!--//header-->
+	<!--
 	<banner></banner>
-	<div class="gallery" ng-controller="galleryCtrl">
-    	<gallery info="products"></gallery>
-    </div>
+	-->
+	<div ng-view class="view-frame"></div>
+
+
 
 	<!--footer-->
 	<div class="footer">

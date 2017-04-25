@@ -41,6 +41,8 @@ AppAsset::register($this);
             ['label' => 'Setting Locale', 'url' => ['/setting-locale']],
             ['label' => 'Locale', 'url' => ['/locale']],
             ['label' => 'Mode', 'url' => ['/mode']],
+            ['label' => 'Origin', 'url' => ['/origin']],
+            ['label' => 'Origin Locale', 'url' => ['/origin-locale']],
             ['label' => 'Mode Category', 'url' => ['/mode-category']],
             ['label' => 'Position', 'url' => ['/position']],
             ['label' => 'Slide', 'url' => ['/slide']],
