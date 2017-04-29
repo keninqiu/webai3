@@ -19,5 +19,5 @@ $scope.setActive = function(item) {
 	}	
     item.active="active";
 }
- 
+$scope.quantity = 1;
 });
