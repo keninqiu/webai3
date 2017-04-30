@@ -8,7 +8,10 @@ app.controller('productCtrl', function ($scope,DataManager, $routeParams,DataMan
       $scope.product = products[id];
       console.log($scope.product);
       side_path = $scope.product.side_path;
-      side_path[0].active="active";
+      if(side_path&&side_path.length>0) {
+      	side_path[0].active="active";
+      }
+      
   });
 
 $scope.active1 = "active";

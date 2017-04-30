@@ -1,8 +1,8 @@
 function cartItem(sku, name, price, quantity) { 
 	this.sku = sku; 
 	this.name = name; 
-	this.price = price * 1; 
-	this.quantity = quantity * 1; 
+	this.price = price; 
+	this.quantity = quantity; 
 }
 
 
@@ -24,8 +24,25 @@ function shoppingCart(cartName) {
 }
 
 shoppingCart.prototype.addItem = function (sku,name,price,quantity) {
-	item = new cartItem(sku, name, price, quantity); 
-	this.items.push(item); 
+	for (var i = 0; i < this.items.length; i++) { 
+		if (this.items[i].sku == sku) {
+			item = this.items[i];
+			item.quantity += quantity;
+			if(item.quantity < 0) {
+				item.quantity = 0;
+			} 
+			else if(item.quantity > 1000) {
+				item.quantity = 1000;
+			}
+			break;
+		}; 
+	} 	
+	if(!item) {
+		item = new cartItem(sku, name, price, quantity); 
+		this.items.push(item); 		
+	}
+
+	this.saveItems();
 }
 
 shoppingCart.prototype.loadItems = function () { 

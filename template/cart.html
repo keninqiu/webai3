@@ -15,13 +15,13 @@
 					</td>
 				</tr>
 
-				<tr ng-repeat="item in car.items | orderBy:'name'">
+				<tr ng-repeat="item in cart.items">
 					<td>{{item.name}}</td>
 					<td class="MyCenter">
 						<div class="input-append">
 							<input class="span3 text-center" type="tel" ng-model="item.quantity" ng-change="cart.saveItems()" />
 							<button class="btn btn-success" type="button" ng-disabled="item.quantity>=1000" ng-click="cart.addItem(item.sku,item.name,item.price,+1)">+</button>
-							<button class="btn btn-success" type="button" ng-disabled="item.quantity<=1" ng-click="cart.addItem(item.sku,item.name,item.price,-1)">-</button>							
+							<button class="btn btn-success" type="button" ng-disabled="item.quantity<=0" ng-click="cart.addItem(item.sku,item.name,item.price,-1)">-</button>							
 						</div>
 					</td>
 					<td class="MyRight">{{item.price * item.quantity | currency}}</td>
@@ -42,7 +42,7 @@
 		</div>
 		<div class="span4">
 			<p class="My-Text">
-				<button class="btn btn-block" onclick="window.location.href='index.htm'">
+				<button class="btn btn-block" onclick="window.location.href='/'">
 					<i class="icon-chevron-left" />Back to store
 				</button>
 				<button class="btn btn-block btn-danger" ng-click="cart.clearItems()" ng-disabled="cart.getTotalCount() < 1">

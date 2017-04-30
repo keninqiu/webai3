@@ -1,4 +1,4 @@
-	<div class="header-info">
+	<div class="header-info" ng-controller="headerCtrl">
 				<div class="header-right search-box">
 					<a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>				
 					<div class="search">
@@ -33,10 +33,10 @@
 				<div class="header-right cart">
 					<a href="#"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
 					<div class="cart-box">
-						<h4><a href="checkout.html">
-							<span class="simpleCart_total"> $0.00 </span> (<span id="simpleCart_quantity" class="simpleCart_quantity"> 0 </span>) 
+						<h4><a href="/#!/cart">
+							<span class="simpleCart_total"> ${{cart.getTotalPrice()}} </span> (<span id="simpleCart_quantity" class="simpleCart_quantity"> {{cart.getTotalCount()}} </span>) 
 						</a></h4>
-						<p><a href="javascript:;" class="simpleCart_empty">Empty cart</a></p>
+						<p ng-hide="cart.getTotalCount()"><a href="javascript:;" class="simpleCart_empty">Empty cart</a></p>
 						<div class="clearfix"> </div>
 					</div>
 				</div>

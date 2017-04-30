@@ -32,4 +32,6 @@ app.controller('CollapseCtrl', function ($scope,DataManager,$translate) {
   };
 
   $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));  
+
+  
 });
