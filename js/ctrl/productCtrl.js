@@ -1,4 +1,4 @@
-app.controller('productCtrl', function ($scope,DataManager, $routeParams) {
+app.controller('productCtrl', function ($scope,DataManager, $routeParams,DataManager) {
 
   DataManager.loadAll().then(function(data) {
   	  id = $routeParams.id;
@@ -20,4 +20,5 @@ $scope.setActive = function(item) {
     item.active="active";
 }
 $scope.quantity = 1;
+$scope.cart = DataManager.cart;
 });

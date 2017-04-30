@@ -1,3 +1,11 @@
+function cartItem(sku, name, price, quantity) { 
+	this.sku = sku; 
+	this.name = name; 
+	this.price = price * 1; 
+	this.quantity = quantity * 1; 
+}
+
+
 function shoppingCart(cartName) { 
 	//http://mrbool.com/angularjs-creating-a-shopping-cart-application/32183
 	this.cartName = cartName; 
@@ -6,11 +14,18 @@ function shoppingCart(cartName) {
 	this.items = []; 
 	this.loadItems(); 
 	var self = this; 
+	/*
 	$(window).unload(function () { 
 		if (self.clearCart) { self.clearItems(); } 
 		self.saveItems(); 
 		self.clearCart = false;
 	}); 
+	*/
+}
+
+shoppingCart.prototype.addItem = function (sku,name,price,quantity) {
+	item = new cartItem(sku, name, price, quantity); 
+	this.items.push(item); 
 }
 
 shoppingCart.prototype.loadItems = function () { 
@@ -68,7 +83,7 @@ shoppingCart.prototype.addCheckoutParameters = function (serviceName, merchantID
 	if (merchantID == null) { 
 		throw " Need merchantID in order to checkout."; 
 	} 
-	this.checkoutParameters[serviceName] = new checkoutParameters(serviceName, merchantID, options); 
+	//this.checkoutParameters[serviceName] = new checkoutParameters(serviceName, merchantID, options); 
 } 
 
 shoppingCart.prototype.checkout = function (serviceName, clearCart) { 
@@ -131,6 +146,3 @@ shoppingCart.prototype.toNumber = function (value) {
 	return isNaN(value) ? 0 : value; 
 }
 
-Read more: http://mrbool.com/angularjs-creating-a-shopping-cart-application/32183#ixzz4fefyWCcE
-
-Read more: http://mrbool.com/angularjs-creating-a-shopping-cart-application/32183#ixzz4fefayISY

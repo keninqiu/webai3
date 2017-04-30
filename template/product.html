@@ -60,9 +60,15 @@ http://bootsnipp.com/snippets/featured/ecommerce-product-detail
 
 
 						<div class="action">
-							<button class="add-to-cart btn btn-default" type="button"><p translate="ADD_TO_CART" style="display:inline"></button>
-							<button class="add-to-cart btn btn-default" type="button"><p translate="CHECKOUT" style="display:inline"></button>
-							<button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+							<button class="add-to-cart btn btn-default" type="button" ng-click="cart.addItem(product.id, product.name, product.price, 1)">
+								<p translate="ADD_TO_CART" style="display:inline">
+							</button>
+							<button class="add-to-cart btn btn-default" type="button">
+								<p translate="CHECKOUT" style="display:inline">
+							</button>
+							<button class="like btn btn-default" type="button">
+								<span class="fa fa-heart"></span>
+							</button>
 						</div>
 					</div>
 				</div>

@@ -19,6 +19,9 @@ app.config(['$translateProvider','$routeProvider', function($translateProvider,$
     })  
     .when("/product/:id", {
         templateUrl : "template/product.html"
-    })     
+    })  
+    .when('/cart', {
+        templateUrl: 'template/cart.html'
+    })       
     ;  
 }]);
