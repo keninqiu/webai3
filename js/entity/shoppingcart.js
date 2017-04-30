@@ -24,6 +24,8 @@ function shoppingCart(cartName) {
 }
 
 shoppingCart.prototype.addItem = function (sku,name,price,quantity) {
+	console.log('add to cart');
+	var existed = false;
 	for (var i = 0; i < this.items.length; i++) { 
 		if (this.items[i].sku == sku) {
 			item = this.items[i];
@@ -34,10 +36,11 @@ shoppingCart.prototype.addItem = function (sku,name,price,quantity) {
 			else if(item.quantity > 1000) {
 				item.quantity = 1000;
 			}
+			existed = true;
 			break;
 		}; 
 	} 	
-	if(!item) {
+	if(!existed) {
 		item = new cartItem(sku, name, price, quantity); 
 		this.items.push(item); 		
 	}

@@ -20,7 +20,8 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
             return scope.deferred.promise;
         },
         store: myStore, 
-        cart: myCart
+        cart: myCart,
+        searchText:''
 
     };
     return dataManager;

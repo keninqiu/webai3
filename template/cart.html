@@ -3,15 +3,15 @@
 		<div class="span8">
 			<table class="table table-condensed">
 				<tr class="well">
-					<td><b>Item</b></td>
-					<td class="MyCenter"><b>Quantity</b></td>
-					<td class="MyRight"><b>Price</b></td>
+					<td><b><p translate="ITEM" style="display:inline"></b></td>
+					<td class="MyCenter"><b><p translate="QUANTITY" style="display:inline"></b></td>
+					<td class="MyRight"><b><p translate="PRICE" style="display:inline"></b></td>
 					<td />
 				</tr>
 
 				<tr ng-hide="cart.getTotalCount()">
 					<td class="MyCenter" colspan="4">
-						Your cart is empty.
+						<p translate="CART_EMPTY" style="display:inline">
 					</td>
 				</tr>
 
@@ -43,18 +43,13 @@
 		<div class="span4">
 			<p class="My-Text">
 				<button class="btn btn-block" onclick="window.location.href='/'">
-					<i class="icon-chevron-left" />Back to store
+					<i class="icon-chevron-left" /><p translate="BACK_TO_STORE" style="display:inline">
 				</button>
 				<button class="btn btn-block btn-danger" ng-click="cart.clearItems()" ng-disabled="cart.getTotalCount() < 1">
-					<i class="icon-trash icon-white" /> Clear cart
+					<i class="icon-trash icon-white" /> <p translate="CLEAR_CART" style="display:inline">
 				</button>
 			</p>
 			<br />
-			<p class="My-Text">
-				<button class="btn btn-block btn-link" ng-click="cart.checkout('PayPal')" ng-disabled="cart.getTotalCount() < 1">
-					<img class="imagem_artigo" src="https://www.paypal.com/en_US/i/btn/btn-xpress.jpg" />
-				</button>
-			</p>
 		</div>
 	</div>
 </div>
