@@ -1,11 +1,15 @@
 app.controller('galleryCtrl', function ($scope,DataManager) {
-	$scope.init = function() {
+	//$scope.init = function() {
 		DataManager.loadAll().then(function(data) {
 		    $scope.products = data.product;
 		    console.log($scope.products);
+		    /*
+		    
 		    console.log(DataManager.searchText);
 		    searchText = DataManager.searchText;
+		    console.log('searchText = ' + searchText);
 		    if(searchText) {
+		    	console.log('not null');
 				for (i = 0; i < $scope.products.length; i++) { 
 				    product = $scope.products[i];
 				    name = product.name;
@@ -15,9 +19,12 @@ app.controller('galleryCtrl', function ($scope,DataManager) {
 				    }
 				}		    	
 		    }
+
+		    console.log($scope.products);
+		    */
 		    
 		});
 		$scope.cart = DataManager.cart;		
-	}
+	//}
 
 });
