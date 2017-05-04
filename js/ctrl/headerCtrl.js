@@ -1,9 +1,8 @@
-app.controller('headerCtrl', function ($scope,DataManager,$location) {
+app.controller('headerCtrl', function ($scope,$rootScope,DataManager,$location) {
 
 	$scope.cart = DataManager.cart;
  	$scope.search = function() {
- 		var searchText = $scope.searchText;
-		DataManager.searchText = searchText;
-		$location.path( "/" );		
+		DataManager.searchText = $scope.searchText;
+		$location.path( "/" );
  	}
 });
