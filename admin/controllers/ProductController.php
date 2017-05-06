@@ -6,6 +6,7 @@ use Yii;
 use app\models\Product;
 use app\models\ProductLocale;
 use app\models\ProductSearch;
+use app\models\CategoryProduct;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -57,21 +58,15 @@ class ProductController extends Controller
         ]);
     }
 
-    public function addLocale($product_id,$name) {
+    public function addLocale($product_id,$locale_id,$name,$value) {
         $productLocale = new ProductLocale();
         $productLocale["product_id"] = $product_id;
-        $productLocale["locale_id"] = 1;
+        $productLocale["locale_id"] = $locale_id;
         $productLocale["name"] = $name;
-        $productLocale["value"] = $name;
-        $productLocale->save();
-
-        $productLocale = new ProductLocale();
-        $productLocale["product_id"] = $product_id;
-        $productLocale["locale_id"] = 2;
-        $productLocale["name"] = $name;
-        $productLocale["value"] = $name;
-        $productLocale->save();                
+        $productLocale["value"] = $value;
+        $productLocale->save();              
     }
+    /*
     public function addLocales($model) {
         $name = $model->name;
         $description = $model->description;
@@ -80,6 +75,7 @@ class ProductController extends Controller
         $this->addLocale($model->id,$description);
         $this->addLocale($model->id,$spec);
     }
+    */
 
 /*
             [['locale_id'], 'integer'],
@@ -95,8 +91,33 @@ class ProductController extends Controller
     {
         $model = new Product();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->addLocales($model);
+        $postData = Yii::$app->request->post();
+        if ($model->load($postData)&&$model->save()) {
+            $productData = $postData["Product"];
+            $name_en = $model->name;
+            $description_en = $model->description;
+            $spec_en = $model->spec;
+
+            $name_zh = $productData["name_zh"];
+            $description_zh = $productData["description_zh"];
+            $spec_zh = $productData["spec_zh"];
+            $category_id = $productData["category_id"];
+
+            $model->name = "product_".$model->id."_name";
+            $model->description = "product_".$model->id."_description";
+            $model->spec = "product_".$model->id."_spec";
+            $this->addLocale($model->id,1,$model->name,$name_en);
+            $this->addLocale($model->id,2,$model->name,$name_zh);
+            $this->addLocale($model->id,1,$model->description,$description_en);
+            $this->addLocale($model->id,2,$model->description,$description_zh);
+            $this->addLocale($model->id,1,$model->spec,$spec_en);
+            $this->addLocale($model->id,2,$model->spec,$spec_zh);                        
+            $model->save();
+
+            $categoryProduct = new CategoryProduct();
+            $categoryProduct["category_id"] = $category_id;
+            $categoryProduct["product_id"] = $model->id;
+            $categoryProduct->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -115,9 +136,76 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $postData = Yii::$app->request->post();
+        if ($model->load($postData)) {
+
+            $productData = $postData["Product"];
+            $name_en = $model->name;
+            $description_en = $model->description;
+            $spec_en = $model->spec;
+
+            $model->name = "product_".$model->id."_name";
+            $model->description = "product_".$model->id."_description";
+            $model->spec = "product_".$model->id."_spec";
+            $model->save();
+
+            $name_zh = $productData["name_zh"];
+            $description_zh = $productData["description_zh"];
+            $spec_zh = $productData["spec_zh"];
+            $category_id = $productData["category_id"];
+
+
+            $locale = ProductLocale::find()->where(["product_id" => $id,"locale_id" => 1,"name" => ("product_".$id."_name")])->one();
+            if($locale) {
+                $locale["value"] = $name_en;
+                $locale->save(false);                
+            }
+
+            $locale = ProductLocale::find()->where(["product_id" => $id,"locale_id" => 1,"name" => ("product_".$id."_description")])->one();
+            if($locale) {
+                $locale["value"] = $description_en;
+                $locale->save(false);                
+            }
+
+            $locale = ProductLocale::find()->where(["product_id" => $id,"locale_id" => 1,"name" => ("product_".$id."_spec")])->one();
+            if($locale) {
+                $locale["value"] = $spec_en;
+                $locale->save(false);                
+            }
+
+
+            $locale = ProductLocale::find()->where(["product_id" => $id,"locale_id" => 2,"name" => ("product_".$id."_name")])->one();
+            if($locale) {
+                $locale["value"] = $name_zh;
+                $locale->save(false);                
+            }
+
+            $locale = ProductLocale::find()->where(["product_id" => $id,"locale_id" => 2,"name" => ("product_".$id."_description")])->one();
+            if($locale) {
+                $locale["value"] = $description_zh;
+                $locale->save(false);                
+            }
+
+            $locale = ProductLocale::find()->where(["product_id" => $id,"locale_id" => 2,"name" => ("product_".$id."_spec")])->one();
+            if($locale) {
+                $locale["value"] = $spec_zh;
+                $locale->save(false);                
+            }
+
+            $categoryProduct = CategoryProduct::find()->where(["product_id" => $id])->one();
+            if($categoryProduct) {
+                $categoryProduct["category_id"] = $category_id;
+                $categoryProduct->save(false);
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $model->name = $model->nameEn;
+            $model->description = $model->descriptionEn;
+            $model->spec = $model->specEn;
+            $model->name_zh = $model->nameZh;
+            $model->description_zh = $model->descriptionZh;
+            $model->spec_zh = $model->specZh;  
+            $model->category_id = $model->categoryId;            
             return $this->render('update', [
                 'model' => $model,
             ]);
