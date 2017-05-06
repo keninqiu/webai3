@@ -26,49 +26,73 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Setting', 'url' => ['/setting']],
-            ['label' => 'Setting Locale', 'url' => ['/setting-locale']],
-            ['label' => 'Locale', 'url' => ['/locale']],
-            ['label' => 'Mode', 'url' => ['/mode']],
-            ['label' => 'Origin', 'url' => ['/origin']],
-            ['label' => 'Origin Locale', 'url' => ['/origin-locale']],
-            ['label' => 'Mode Category', 'url' => ['/mode-category']],
-            ['label' => 'Position', 'url' => ['/position']],
-            ['label' => 'Slide', 'url' => ['/slide']],
-            ['label' => 'Brand', 'url' => ['/brand']],
-            ['label' => 'Image Type', 'url' => ['/image-type']],
-            ['label' => 'Product', 'url' => ['/product']],
-            ['label' => 'Product Locale', 'url' => ['/product-locale']],
-            ['label' => 'Category', 'url' => ['/category']],
-            ['label' => 'Category Locale', 'url' => ['/category-locale']],
-            ['label' => 'Category Product', 'url' => ['/category-product']],
-            ['label' => 'Product Image', 'url' => ['/product-image']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
+    $items = [
+        ['label' => 'Login', 'url' => ['/site/login']]
+    ];
+    if(Yii::$app->user->identity) {
+        $items = [
+                ['label' => 'Home', 'url' => ['/site/index']],
+                [
+                    'label' => 'Setting', 'url' => ['#'],
+                    'items' => [
+                        ['label' => 'Setting', 'url' => ['/setting']],
+                        ['label' => 'Mode', 'url' => ['/mode']],
+                        ['label' => 'Origin', 'url' => ['/origin']],
+                        ['label' => 'Position', 'url' => ['/position']],
+                        ['label' => 'Slide', 'url' => ['/slide']],
+                        ['label' => 'Brand', 'url' => ['/brand']],
+                        ['label' => 'Image Type', 'url' => ['/image-type']],
+                    ],                
+                ],
+
+                [
+                    'label' => 'Locale', 'url' => ['#'],
+                    'items' => [
+                        ['label' => 'Locale', 'url' => ['/locale']],
+                        ['label' => 'Setting Locale', 'url' => ['/setting-locale']],
+                        ['label' => 'Origin Locale', 'url' => ['/origin-locale']],
+                        ['label' => 'Product Locale', 'url' => ['/product-locale']],
+                        ['label' => 'Category Locale', 'url' => ['/category-locale']],
+                    ],                
+                ],
+
+                
+                
+                
+                ['label' => 'Mode Category', 'url' => ['/mode-category']],      
+                
+                ['label' => 'Product', 'url' => ['/product']],
+                
+                ['label' => 'Category', 'url' => ['/category']],
+                
+                ['label' => 'Category Product', 'url' => ['/category-product']],
+                ['label' => 'Product Image', 'url' => ['/product-image']],
+
+                    '<li>'
+                    . Html::beginForm(['/site/logout'], 'post')
+                    . Html::submitButton(
+                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>'
+
+        ];
+    }
+        NavBar::begin([
+            'brandLabel' => 'Cishop',
+            'brandUrl' => Yii::$app->homeUrl,
+            'options' => [
+                'class' => 'navbar-inverse navbar-fixed-top',
+            ],
+        ]);
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => $items
+        ]);
+        NavBar::end();        
+    
+
     ?>
 
     <div class="container">
@@ -81,8 +105,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
+        <p class="pull-left">&copy; Cishop <?= date('Y') ?></p>
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>

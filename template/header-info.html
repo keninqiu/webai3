@@ -10,6 +10,19 @@
 						</form>
 					</div>	
 				</div>
+
+				<div class="header-right cart">
+					<a href="/#!/cart"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+					<div class="cart-box">
+						<h4><a href="/#!/cart">
+							<span class="simpleCart_total"> ${{cart.getTotalPrice()}} </span> (<span id="simpleCart_quantity" class="simpleCart_quantity"> {{cart.getTotalCount()}} </span>) 
+						</a></h4>
+						<p ng-hide="cart.getTotalCount()"><a href="/#!/cart" translate="EMPTY_CART" class="simpleCart_empty"></a></p>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+
+				<!--
 				<div class="header-right login">
 					<a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
 					<div id="loginBox">                
@@ -30,17 +43,19 @@
 						</form>
 					</div>
 				</div>
+				-->
+				<!--
 				<div class="header-right cart">
 					<a href="/#!/cart"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
 					<div class="cart-box">
 						<h4><a href="/#!/cart">
 							<span class="simpleCart_total"> ${{cart.getTotalPrice()}} </span> (<span id="simpleCart_quantity" class="simpleCart_quantity"> {{cart.getTotalCount()}} </span>) 
 						</a></h4>
-						<p ng-hide="cart.getTotalCount()"><a href="javascript:;" class="simpleCart_empty">Empty cart</a></p>
+						<p ng-hide="cart.getTotalCount()"><a href="#" translate="EMPTY_CART" class="simpleCart_empty">Empty cart</a></p>
 						<div class="clearfix"> </div>
 					</div>
 				</div>
-
+				-->
 				<div class="clearfix"> </div>		
 		</div>		
 <!--

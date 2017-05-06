@@ -1,6 +1,8 @@
 <div class="container-fluid" ng-controller="cartCtrl">
 	<div class="row-fluid">
 		<div class="span8">
+
+			<form class="form-inline">
 			<table class="table table-condensed">
 				<tr class="well">
 					<td><b><p translate="ITEM" style="display:inline"></b></td>
@@ -16,12 +18,16 @@
 				</tr>
 
 				<tr ng-repeat="item in cart.items">
-					<td>{{item.name}}</td>
+					<td translate="{{item.name}}"></td>
 					<td class="MyCenter">
-						<div class="input-append">
-							<input class="span3 text-center" type="tel" ng-model="item.quantity" ng-change="cart.saveItems()" />
+						<div class="form-group">
+							<input class="form-control mb-1 mr-sm-1 mb-sm-1" type="tel" ng-model="item.quantity" ng-change="cart.saveItems()" />
+							<button type="submit" class="btn btn-primary">Submit</button>
+
+							<!--
 							<button class="btn btn-success" type="button" ng-disabled="item.quantity>=1000" ng-click="cart.addItem(item.sku,item.name,item.price,+1)">+</button>
-							<button class="btn btn-success" type="button" ng-disabled="item.quantity<=0" ng-click="cart.addItem(item.sku,item.name,item.price,-1)">-</button>							
+							<button class="btn btn-success" type="button" ng-disabled="item.quantity<=0" ng-click="cart.addItem(item.sku,item.name,item.price,-1)">-</button>	
+							-->						
 						</div>
 					</td>
 					<td class="MyRight">{{item.price * item.quantity | currency}}</td>
@@ -33,16 +39,20 @@
 				</tr>
 
 				<tr class="well">
-					<td><b>Total</b></td>
+					<td><b><p translate="TOTAL" style="display:inline"></b></td>
 					<td class="MyCenter"><b>{{cart.getTotalCount()}}</b></td>
 					<td class="MyRight"><b>{{cart.getTotalPrice() | currency}}</b></td>
 					<td />
 				</tr>
 			</table>
+			</form>
 		</div>
 		<div class="span4">
 			<p class="My-Text">
-				<button class="btn btn-block" onclick="window.location.href='/'">
+				<button class="btn btn-block btn-primary" ng-click="cart.confirm()" ng-disabled="cart.getTotalCount() < 1">		
+					<i class="icon-trash icon-white" /> <p translate="CHECKOUT" style="display:inline">
+				</button>					
+				<button class="btn btn-block btn-info" onclick="window.location.href='/'">
 					<i class="icon-chevron-left" /><p translate="BACK_TO_STORE" style="display:inline">
 				</button>
 				<button class="btn btn-block btn-danger" ng-click="cart.clearItems()" ng-disabled="cart.getTotalCount() < 1">

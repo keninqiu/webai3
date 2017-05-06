@@ -106,6 +106,9 @@ shoppingCart.prototype.addCheckoutParameters = function (serviceName, merchantID
 	//this.checkoutParameters[serviceName] = new checkoutParameters(serviceName, merchantID, options); 
 } 
 
+shoppingCart.prototype.confirm = function (){
+	console.log('confirm my cart');
+}
 shoppingCart.prototype.checkout = function (serviceName, clearCart) { 
 	if (serviceName == null) { 
 		var p = this.checkoutParameters[Object.keys(this.checkoutParameters)[0]]; 
