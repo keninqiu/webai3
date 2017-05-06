@@ -27,7 +27,7 @@
 	          <ul class="nav navbar-nav">
 	            <li><a href="#" ng-click="index()"><p translate="STORE"></p></a></li>
 	            <li ng-repeat="item in category">
-	              <a href="/#!/category/{{item.id}}"><p translate="{{item.name}}"></p></a>
+	              <a href="#" ng-click="showCategory(item.id)"><p translate="{{item.name}}"></p></a>
 	            </li>
 	            <li><a href="#" ng-click="tuan()"><p translate="GROUPON"></p></a></li>
 	            <li><a href="#" ng-click="changeLang('en')">English</a></li>

@@ -92,6 +92,7 @@ class SettingController extends Controller
             $description = $record["description"];
             $price = $record["price"];
             $brand_id = $record["brand_id"];
+
             $spec = $record["spec"];
             $origin = $record["origin"];
             $brand = $record["brand"];
@@ -100,6 +101,8 @@ class SettingController extends Controller
             $sql = "select path from product_image where type_id=2 and product_id=$id";
             $side_path = self::querySql($sql);
 
+            $sql = "select category_id from category_product where product_id=$id";
+            $categories = self::querySql($sql);
             $product[$id] = [
                 "id" => $id,
                 "name" => $name,
@@ -110,7 +113,8 @@ class SettingController extends Controller
                 "path" => $path,
                 "side_path" => $side_path,
                 "origin" => $origin,
-                "brand" => $brand
+                "brand" => $brand,
+                "categories" => $categories
             ];
 
         }

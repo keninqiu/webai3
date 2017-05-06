@@ -16,6 +16,10 @@ app.controller('CollapseCtrl', function ($scope,DataManager,$translate) {
     DataManager.searchText = '';
   }
 
+  $scope.showCategory = function(id) {
+    DataManager.searchText = 'category_id='+id;
+  }
+
   $scope.items = [
     'zh',
     'en'
