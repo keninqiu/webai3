@@ -19,16 +19,16 @@
 
 				<tr ng-repeat="item in cart.items">
 					<td translate="{{item.name}}"></td>
-					<td class="MyCenter">
-						<div class="form-group">
+					<td>
+						
 							<input class="form-control mb-1 mr-sm-1 mb-sm-1" type="tel" ng-model="item.quantity" ng-change="cart.saveItems()" />
-							<button type="submit" class="btn btn-primary">Submit</button>
+							<button type="submit" class="btn btn-primary mb-1 mr-sm-1 mb-sm-1">Submitt</button>
 
 							<!--
 							<button class="btn btn-success" type="button" ng-disabled="item.quantity>=1000" ng-click="cart.addItem(item.sku,item.name,item.price,+1)">+</button>
 							<button class="btn btn-success" type="button" ng-disabled="item.quantity<=0" ng-click="cart.addItem(item.sku,item.name,item.price,-1)">-</button>	
 							-->						
-						</div>
+						
 					</td>
 					<td class="MyRight">{{item.price * item.quantity | currency}}</td>
 					<td class="myCenter" title="remove from cart">

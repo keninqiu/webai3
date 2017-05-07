@@ -56,17 +56,20 @@ AppAsset::register($this);
                     ],                
                 ],
 
+                [
+                    'label' => 'Data', 'url' => ['#'],
+                    'items' => [
+                        ['label' => 'Mode Category', 'url' => ['/mode-category']],  
+                        ['label' => 'Source', 'url' => ['/source']],    
+                        ['label' => 'Product', 'url' => ['/product']],         
+                        ['label' => 'Category', 'url' => ['/category']],
+                        ['label' => 'Category Product', 'url' => ['/category-product']],
+                        ['label' => 'Product Image', 'url' => ['/product-image']],
+                    ],                
+                ],                
                 
                 
-                
-                ['label' => 'Mode Category', 'url' => ['/mode-category']],      
-                
-                ['label' => 'Product', 'url' => ['/product']],
-                
-                ['label' => 'Category', 'url' => ['/category']],
-                
-                ['label' => 'Category Product', 'url' => ['/category-product']],
-                ['label' => 'Product Image', 'url' => ['/product-image']],
+
 
                     '<li>'
                     . Html::beginForm(['/site/logout'], 'post')
