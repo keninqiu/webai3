@@ -7,6 +7,7 @@ use app\models\Product;
 use app\models\ProductLocale;
 use app\models\ProductSearch;
 use app\models\CategoryProduct;
+use app\managers\ProductManager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -57,31 +58,7 @@ class ProductController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
-    public function addLocale($product_id,$locale_id,$name,$value) {
-        $productLocale = new ProductLocale();
-        $productLocale["product_id"] = $product_id;
-        $productLocale["locale_id"] = $locale_id;
-        $productLocale["name"] = $name;
-        $productLocale["value"] = $value;
-        $productLocale->save();              
-    }
-    /*
-    public function addLocales($model) {
-        $name = $model->name;
-        $description = $model->description;
-        $spec = $model->spec;
-        $this->addLocale($model->id,$name);
-        $this->addLocale($model->id,$description);
-        $this->addLocale($model->id,$spec);
-    }
-    */
-
-/*
-            [['locale_id'], 'integer'],
-            [['name'], 'string', 'max' => 50],
-            [['value'], 'string', 'max' => 1000],
-*/    
+  
     /**
      * Creates a new Product model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -90,35 +67,11 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new Product();
-
         $postData = Yii::$app->request->post();
-        if ($model->load($postData)&&$model->save()) {
-            $productData = $postData["Product"];
-            $name_en = $model->name;
-            $description_en = $model->description;
-            $spec_en = $model->spec;
-
-            $name_zh = $productData["name_zh"];
-            $description_zh = $productData["description_zh"];
-            $spec_zh = $productData["spec_zh"];
-            $category_id = $productData["category_id"];
-
-            $model->name = "product_".$model->id."_name";
-            $model->description = "product_".$model->id."_description";
-            $model->spec = "product_".$model->id."_spec";
-            $this->addLocale($model->id,1,$model->name,$name_en);
-            $this->addLocale($model->id,2,$model->name,$name_zh);
-            $this->addLocale($model->id,1,$model->description,$description_en);
-            $this->addLocale($model->id,2,$model->description,$description_zh);
-            $this->addLocale($model->id,1,$model->spec,$spec_en);
-            $this->addLocale($model->id,2,$model->spec,$spec_zh);                        
-            $model->save();
-
-            $categoryProduct = new CategoryProduct();
-            $categoryProduct["category_id"] = $category_id;
-            $categoryProduct["product_id"] = $model->id;
-            $categoryProduct->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+        $productManager = new ProductManager($model);
+        $status = $productManager->saveProduct($postData);        
+        if ($status) {
+            //return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,

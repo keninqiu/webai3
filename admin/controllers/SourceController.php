@@ -7,12 +7,16 @@ require_once(__DIR__ . '/../components/CurlUtil.class.php');
 require_once(__DIR__ . '/../components/Logger.class.php');
 use Yii;
 use app\models\Source;
+use app\models\Product;
+use app\models\Brand;
 use app\models\SourceSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\CurlUtil;
 use app\components\Logger;
+use app\managers\ProductManager;
+use app\managers\ProductImageManager;
 /**
  * SourceController implements the CRUD actions for Source model.
  */
@@ -54,9 +58,9 @@ class SourceController extends Controller
         }
 
         $description = "";
-        $descriptionTag = $html->find('p[class="primary-clause"]',0);
+        $descriptionTag = $html->find('meta[name="description"]',0);
         if($descriptionTag) {
-            $description = $descriptionTag->text();
+            $description = $descriptionTag->content;
         }
 
         $image = "";
@@ -65,21 +69,119 @@ class SourceController extends Controller
             $image = $imageTag->src;
         }
 
+        $brand = "";
+        $brandTag = $html->find('div[class="product-info-specs"]',0);
+        if($brandTag) {
+            //echo "oooo";
+            $brand = $brandTag->text();
+            $brand = str_replace("Brand:","",$brand);
+            $brand = trim($brand);
+        }
+
+        //echo $brand;
+        $brandObj = Brand::find()->where(["name" => $brand])->one();
+        $brand_id = 0;
+
+        if(!$brandObj) {
+            $brandObj = new Brand();
+            $brandObj["name"] = $brand;
+            $brandObj->save();
+
+        }
+        $brand_id = $brandObj["id"];
+        echo "brand_id=$brand_id";
         return [
             "name" => $name,
             "description" => $description,
             "price" => $price,
-            "image" => $image
+            "image" => $image,
+            "brand_id" => $brand_id,
+            "source" => $source
         ];
     }
+/*
+_csrf:WmgwSmRobnISHUANCjgqBzk/ZgAoKgEcN15HGwYSFCscCWM9ETxaBw==
+Product[name]:faefaw
+Product[name_zh]:faewfaw
+Product[description]:feaw
+Product[description_zh]:fawefa
+Product[price]:12
+Product[brand_id]:1
+Product[origin_id]:1
+Product[spec]:faefa
+Product[spec_zh]:feawwa
+Product[category_id]:1
+Product[source]:feafwa
+*/
 
+/*
+saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==","Product":{"name":"faerfa","name_zh":"faefewa","description":"c","description_zh":"fger","price":"12","brand_id":"1","origin_id":"1","spec":"gfefea","spec_zh":"fwefwa","category_id":"1","source":"faewfwaf"}}|||"Product"scope is not null{"name":"faerfa","name_zh":"faefewa","description":"c","description_zh":"fger","price":"12","brand_id":"1","origin_id":"1","spec":"gfefea","spec_zh":"fwefwa","category_id":"1","source":"faewfwaf"}yes load success
+*/
     public function handle($productInfo) {
+        $postData = [];
+        $postData["_csrf"] = "WmgwSmRobnISHUANCjgqBzk/ZgAoKgEcN15HGwYSFCscCWM9ETxaBw==";
+        /*
+        $postData["Product[name]"] = $productInfo["name"];
+        $postData["Product[name_zh]"] = $productInfo["name"];
 
+        $postData["Product[description]"] = $productInfo["description"];
+        $postData["Product[description_zh]"] = $productInfo["description"];   
+        
+        $postData["Product[price]"] = $productInfo["price"];
+        $postData["Product[brand_id]"] = 1;  
+        $postData["Product[origin_id]"] = 1;    
+
+        $postData["Product[spec]"] = "spec";
+        $postData["Product[spec_zh]"] = "spec";   
+
+        $postData["Product[category_id]"] = 1;   
+        $postData["Product[source]"] = $productInfo["source"];  
+        */ 
+
+        $model = new Product();
+        $product = [];
+        echo $productInfo["source"];
+        $product["name"] = trim($productInfo["name"]);
+        $product["name_zh"] = trim($productInfo["name"]);
+        $product["description"] = trim($productInfo["description"]);
+        $product["description_zh"] = trim($productInfo["description"]);
+        $product["price"] = $productInfo["price"];
+        $product["brand_id"] = $productInfo["brand_id"];
+        $product["origin_id"] = "2";
+        $product["spec"] = "";
+        $product["spec_zh"] = "";
+        $product["category_id"] = "1";
+        $product["source"] = $productInfo["source"];
+        $postData["Product"] = $product;
+        $productManager = new ProductManager($model);
+        $productId = $productManager->saveProduct($postData);  
+        echo "productId=$productId";
+        if($productId) {
+            $productImageManager = new ProductImageManager($productId);
+            echo "image=".$productInfo["image"];
+            $productImageManager->saveImage($productInfo["image"]);              
+        }
     }
+
+/*
+{"name_zh":"Kirkland Signature Krill Oil 500mg -- 120 Softgels ","description_zh":"Kirkland Signature Krill Oil 500mg -- 120 Softgels ","spec_zh":"Kirkland Signature Krill Oil 500mg -- 120 Softgels ","category_id":1}
+{"name_zh":"Kirkland Signature Krill Oil 500mg -- 120 Softgels ","description_zh":"Kirkland Signature Krill Oil 500mg -- 120 Softgels ","spec_zh":"Kirkland Signature Krill Oil 500mg -- 120 Softgels ","category_id":1}
+
+{"name":"fewa","name_zh":"fweafwa","description":"fawef","description_zh":"fawefwa","price":"12","brand_id":"1","origin_id":"1","spec":"faewwa","spec_zh":"fwaefwa","category_id":"1","source":"feawfwa"}
+{"name":"fewa","name_zh":"fweafwa","description":"fawef","description_zh":"fawefwa","price":"12","brand_id":"1","origin_id":"1","spec":"faewwa","spec_zh":"fwaefwa","category_id":"1","source":"feawfwa"}yes load success
+*/
+
+
+
     public function actionGenerate() {
         $records = Source::find()->all();
         foreach($records as $record) {
             $source = $record["url"];
+            $productWithSource = Product::find()->where(["source" => $source])->one();
+            if($productWithSource) {
+                continue;
+            }
+
             $productInfo = self::getProductFromCostco($source);
             self::handle($productInfo);
         }
