@@ -1,8 +1,0 @@
-<?php
-namespace Webai\Api;
-class Config {
-	const DB_HOST = 'localhost';
-    const DB_NAME = 'webai';
-    const DB_USER = 'root';
-    const DB_PASS = 'mysql';
-}
