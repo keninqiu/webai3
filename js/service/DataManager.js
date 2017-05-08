@@ -19,6 +19,12 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
 		    }
             return scope.deferred.promise;
         },
+        confirmOrder: function(data) {
+            $http.post('admin/order/confirm')
+                .then(function(res){
+                    console.log("return from json");   
+                });              
+        },
         store: myStore, 
         cart: myCart,
         searchText:{}

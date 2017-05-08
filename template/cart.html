@@ -1,3 +1,4 @@
+
 <div class="container-fluid" ng-controller="cartCtrl">
 	<div class="row-fluid">
 		<div class="span8">
@@ -12,26 +13,23 @@
 				</tr>
 
 				<tr ng-hide="cart.getTotalCount()">
-					<td class="MyCenter" colspan="4">
-						<p translate="CART_EMPTY" style="display:inline">
+					<td class="MyCenter" colspan="4" translate="CART_EMPTY">
 					</td>
 				</tr>
 
 				<tr ng-repeat="item in cart.items">
-					<td translate="{{item.name}}"></td>
-					<td>
-						
-							<input class="form-control mb-1 mr-sm-1 mb-sm-1" type="tel" ng-model="item.quantity" ng-change="cart.saveItems()" />
-							<button type="submit" class="btn btn-primary mb-1 mr-sm-1 mb-sm-1">Submitt</button>
-
-							<!--
+					<td ng-show="item.quantity>0"><label translate="{{item.name}}" for="lgFormGroupInput" class="col-form-label col-form-label-lg"></label></td>
+					<td ng-show="item.quantity>0">
+						<label for="lgFormGroupInput" class="col-form-label col-form-label-lg">{{item.quantity}}</label>
+						<!--
+							<input class="form-control" type="tel" ng-model="item.quantity" ng-change="cart.saveItems()" />
+						-->
 							<button class="btn btn-success" type="button" ng-disabled="item.quantity>=1000" ng-click="cart.addItem(item.sku,item.name,item.price,+1)">+</button>
-							<button class="btn btn-success" type="button" ng-disabled="item.quantity<=0" ng-click="cart.addItem(item.sku,item.name,item.price,-1)">-</button>	
-							-->						
+							<button class="btn btn-success" type="button" ng-disabled="item.quantity<=0" ng-click="cart.addItem(item.sku,item.name,item.price,-1)">-</button>				
 						
 					</td>
-					<td class="MyRight">{{item.price * item.quantity | currency}}</td>
-					<td class="myCenter" title="remove from cart">
+					<td class="MyRight" ng-show="item.quantity>0">{{item.price * item.quantity | currency}}</td>
+					<td class="myCenter" ng-show="item.quantity>0" title="remove from cart">
 						<a href="" ng-click="cart.addItem(item.sku,item.name,item.price,-1000)">
 							<i class="icon-remove" />
 						</a>
@@ -49,7 +47,7 @@
 		</div>
 		<div class="span4">
 			<p class="My-Text">
-				<button class="btn btn-block btn-primary" ng-click="cart.confirm()" ng-disabled="cart.getTotalCount() < 1">		
+				<button class="btn btn-block btn-primary" ng-click="confirm()" ng-disabled="cart.getTotalCount() < 1">		
 					<i class="icon-trash icon-white" /> <p translate="CHECKOUT" style="display:inline">
 				</button>					
 				<button class="btn btn-block btn-info" onclick="window.location.href='/'">

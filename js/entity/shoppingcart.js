@@ -23,6 +23,7 @@ function shoppingCart(cartName) {
 	*/
 }
 
+
 shoppingCart.prototype.addItem = function (sku,name,price,quantity) {
 	console.log('add to cart');
 	var existed = false;
@@ -107,7 +108,33 @@ shoppingCart.prototype.addCheckoutParameters = function (serviceName, merchantID
 } 
 
 shoppingCart.prototype.confirm = function (){
-	console.log('confirm my cart');
+	console.log('confirmm my cart');
+
+	var data = { 
+		cmd: "confirm"
+	}; 
+
+	data["product"] = "";
+	for (var i = 0; i < this.items.length; i++) { 
+		item = this.items[i];
+		id = item.sku;
+		quantity = item.quantity;
+		data["product"] = id + "," + quantity + ";";
+	}
+	this.clearItems();
+	return data;
+	/*
+	var form = $('<form/></form>'); 
+	form.attr("action", "/order/confirm"); 
+	form.attr("method", "POST"); form.attr("style", "display:none;"); 
+	this.addFormFields(form, data); 
+	$("body").append(form); 
+
+	this.clearCart = clearCart == null || clearCart; 
+	form.submit(); 
+	form.remove(); 
+	*/
+
 }
 shoppingCart.prototype.checkout = function (serviceName, clearCart) { 
 	if (serviceName == null) { 
