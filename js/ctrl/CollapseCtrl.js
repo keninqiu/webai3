@@ -13,11 +13,11 @@ app.controller('CollapseCtrl', function ($scope,DataManager,$translate) {
   }
 
   $scope.index = function() {
-    DataManager.searchText = '';
+    DataManager.searchText = {};
   }
 
   $scope.showCategory = function(id) {
-    DataManager.searchText = 'category_id='+id;
+    DataManager.searchText = {category_id:id};
   }
 
   $scope.items = [

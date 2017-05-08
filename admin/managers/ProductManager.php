@@ -22,8 +22,10 @@ class ProductManager {
     }
 
 	public function saveProduct($postData) {
+		echo json_encode($postData);
         $model = $this->model;
-        if ($model->load($postData)&&$model->save()) {
+        if ($model->load($postData)&&$model->save(false)) {
+        	echo "load success";
             $productData = $postData["Product"];
             $name_en = $model->name;
             $description_en = $model->description;

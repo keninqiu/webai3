@@ -17,6 +17,7 @@ use app\components\CurlUtil;
 use app\components\Logger;
 use app\managers\ProductManager;
 use app\managers\ProductImageManager;
+use app\managers\SettingManager;
 /**
  * SourceController implements the CRUD actions for Source model.
  */
@@ -185,6 +186,9 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
             $productInfo = self::getProductFromCostco($source);
             self::handle($productInfo);
         }
+
+        $settingManager = new SettingManager;
+        $settingManager->generateJson();        
     }
 
     /**

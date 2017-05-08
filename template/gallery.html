@@ -3,7 +3,7 @@
 
 		<div class="container" ng-controller="galleryCtrl" >
 			<div class="gallery-grids">
-				<div class="col-md-3 gallery-grid" ng-repeat="product in productInfo | searchFilter:searchText">
+				<div class="col-md-3 gallery-grid" ng-repeat="product in productInfo | filter: filterFunction">
 					<a href="/#!/product/{{product.id}}"><img ng-src="{{product.path}}" class="img-responsive" alt=""/>
 					</a>
 					<div class="galy-info">

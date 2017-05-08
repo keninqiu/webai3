@@ -28,7 +28,7 @@ class Source extends \yii\db\ActiveRecord
     {
         return [
             [['url'], 'required'],
-            [['url'], 'string', 'max' => 100],
+            [['url'], 'string', 'max' => 500],
         ];
     }
 

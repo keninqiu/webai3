@@ -21,7 +21,7 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
         },
         store: myStore, 
         cart: myCart,
-        searchText:''
+        searchText:{}
 
     };
     return dataManager;

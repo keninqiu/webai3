@@ -3,7 +3,13 @@ app.controller('productCtrl', function ($scope,DataManager, $routeParams,DataMan
   DataManager.loadAll().then(function(data) {
   	  id = $routeParams.id;
       products = data.product;
-      $scope.product = products[id];
+      for(i=0;i<products.length;i++) {
+        product = products[i];
+        if(product.id == id) {
+          $scope.product = product;
+          break;
+        }
+      }
       side_path = $scope.product.side_path;
       if(side_path&&side_path.length>0) {
       	side_path[0].active="active";

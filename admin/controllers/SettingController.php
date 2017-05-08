@@ -6,9 +6,11 @@ use Yii;
 use app\models\Setting;
 use app\models\Category;
 use app\models\Product;
+use app\models\ProductLocale;
 use app\models\Brand;
 use app\models\Slide;
 use app\models\SettingSearch;
+use app\managers\SettingManager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -33,14 +35,6 @@ class SettingController extends Controller
         ];
     }
 
-    public function querySql($query) {
-        $connection=Yii::$app->db; 
-        $command=$connection->createCommand($query);
-        $dataReader=$command->query(); // execute a query SQL   
-        $rows = $dataReader->readAll();
-        return $rows;
-    }
-
     /**
      * Lists all Setting models.
      * @return mixed
@@ -57,163 +51,8 @@ class SettingController extends Controller
     }
 
     public function actionJson() {
-        $data = [];
-
-        $records = Setting::find()->all();
-        $setting = [];
-        foreach($records as $record) {
-            $name = $record["name"];
-            $value = $record["value"];
-            $setting[] = [
-                "name" => $name,
-                "value" => $value,
-            ];
-        }
-        $data["setting"] = $setting;
-
-        $records = Category::find()->all();
-        $category = [];
-        foreach($records as $record) {
-            $id = $record["id"];
-            $name = $record["name"];
-            $category[] = [
-                "id" => $id,
-                "name" => $name,
-            ];
-        }
-        $data["category"] = $category;    
-
-        $sql = "select product.*,origin.name as origin,product_image.path,brand.name as brand from product,product_image,origin,brand where product_image.product_id=product.id and product.origin_id=origin.id and product.brand_id=brand.id";
-        $records = self::querySql($sql);
-        $product = [];
-        foreach($records as $record) {
-            $id = $record["id"];
-            $name = $record["name"];
-            $description = $record["description"];
-            $price = $record["price"];
-            $brand_id = $record["brand_id"];
-
-            $spec = $record["spec"];
-            $origin = $record["origin"];
-            $brand = $record["brand"];
-            $path = $record["path"];
-
-            $sql = "select path from product_image where type_id=2 and product_id=$id";
-            $side_path = self::querySql($sql);
-
-            $sql = "select category_id from category_product where product_id=$id";
-            $categories = self::querySql($sql);
-            $product[$id] = [
-                "id" => $id,
-                "name" => $name,
-                "description" => $description,
-                "price" => $price,
-                "brand_id" => $brand_id,
-                "spec" => $spec,
-                "path" => $path,
-                "side_path" => $side_path,
-                "origin" => $origin,
-                "brand" => $brand,
-                "categories" => $categories
-            ];
-
-        }
-        $data["product"] = $product;  
-
-        $records = Brand::find()->all();
-        $brand = [];
-        foreach($records as $record) {
-            $id = $record["id"];
-            $name = $record["name"];
-            $brand[] = [
-                "id" => $id,
-                "name" => $name,
-            ];
-        }
-        $data["brand"] = $brand;   
-
-        $records = Slide::find()->all();
-        $slide = [];
-        foreach($records as $record) {
-            $id = $record["id"];
-            $name = $record["name"];
-            $path = $record["path"];
-            $text = $record["text"];
-            $link = $record["link"];
-            $position_id = $record["position_id"];
-
-            $slide[] = [
-                "id" => $id,
-                "name" => $name,
-                "path" => $path,
-                "text" => $text,
-                "link" => $link,
-                "position_id" => $position_id
-            ];
-        }
-        $data["slide"] = $slide;  
-
-        $full = json_encode($data);
-        $path = __DIR__ . "/../../json/data.json";
-        file_put_contents($path, $full);
-
-        $locale = [];
-        $sql = "select setting_locale.name,setting_locale.value,locale.code from setting_locale,locale where setting_locale.locale_id=locale.id";
-        $records = self::querySql($sql);
-
-        foreach($records as $record) {
-            $name = $record["name"];
-            $value = $record["value"];
-            $code = $record["code"];
-            $locale[$code][] = [$name => $value];
-        }
-
-        $sql = "select category_locale.name,category_locale.value,locale.code from category_locale,locale where category_locale.locale_id=locale.id";
-        $records = self::querySql($sql);
-
-        foreach($records as $record) {
-            $name = $record["name"];
-            $value = $record["value"];
-            $code = $record["code"];
-            $locale[$code][] = [$name => $value];
-        }
-
-        $sql = "select product_locale.name,product_locale.value,locale.code from product_locale,locale where product_locale.locale_id=locale.id";
-        $records = self::querySql($sql);
-
-        foreach($records as $record) {
-            $name = $record["name"];
-            $value = $record["value"];
-            $code = $record["code"];
-            $locale[$code][] = [$name => $value];
-        }
-
-        $sql = "select origin_locale.name,origin_locale.value,locale.code from origin_locale,locale where origin_locale.locale_id=locale.id";
-        $records = self::querySql($sql);
-
-        foreach($records as $record) {
-            $name = $record["name"];
-            $value = $record["value"];
-            $code = $record["code"];
-            $locale[$code][] = [$name => $value];
-        }
-
-
-        foreach($locale as $index => $value) {
-            $full = "";
-            foreach($value as $codeName => $codeValue) {
-                $codeValue = json_encode($codeValue);
-                $codeValue = trim($codeValue,"{");
-                $codeValue = trim($codeValue,"}");
-                $full .= $codeValue.",";
-            }
-            $full = trim($full,",");
-            $full = "{".$full."}";
-            //$full = json_encode($value);
-            $path = __DIR__ . "/../../i18n/locale-$index.json";
-            file_put_contents($path, $full);
-        }
-
+        $settingManager = new SettingManager;
+        $settingManager->generateJson();
         return "export data successfully!";
     }
 
