@@ -1,37 +1,48 @@
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-            <div class="listing listing-default">
-                <div class="shape">
-                    <div class="shape-text">buy</div>
-                </div>
-                <div class="listing-content">
-                    <h3 class="lead">Standard listing</h3>
-                    <p>Buy items on normal prices. No discounts available for this listing.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-            <div class="listing listing-radius listing-success">
-                <div class="shape">
-                    <div class="shape-text">50%</div>
-                </div>
-                <div class="listing-content">
-                    <h3 class="lead">Discount listing</h3>
-                    <p>Buy now - 50% off.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-            <div class="listing listing-danger">
-                <div class="shape">
-                    <div class="shape-text">hot</div>
-                </div>
-                <div class="listing-content">
-                    <h3 class="lead">Hot Offer</h3>
-                    <p>Best selling for this period.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container"  ng-controller="OrderCtrl">
+  <h2><p translate="ORDER" style="display:inline"></p> - {{order.id}}</h2>
+  <p translate="ORDER_TEXT"></p>            
+  <table class="table">
+    <thead>
+      <tr>
+        <th><p translate="NAME"></p> </th>
+        <th><p translate="PRICE"></p> </th>
+        <th><p translate="QUANTITY"></p> </th>
+        <th><p translate="TOTAL"></p> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in orderItem">
+        <td translate="{{item.name}}"></td>
+        <td>{{item.price}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.price*item.quantity}}</td>
+      </tr>    
+      <tr>
+        <td><p translate="TOTAL"></p></td>
+        <td></td>
+        <td>{{order.quantity}}</td>
+        <td>{{order.price}}</td>
+      </tr>          
+    </tbody>
+  </table>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th><p translate="PAYMENT_METHOD"></p></th>
+        <th><p translate="TOTAL"></p></th>
+      </tr>
+    </thead>
+    <tbody>   
+      <tr>
+        <td>wechat_pay</td>
+        <td>cici20130619</td>
+      </tr>   
+      <tr>
+        <td>bank_transfer</td>
+        <td></td>
+      </tr>              
+    </tbody>
+  </table>  
 </div>
+

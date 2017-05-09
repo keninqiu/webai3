@@ -1,4 +1,4 @@
-app.controller('productCtrl', function ($scope,DataManager, $routeParams,DataManager) {
+app.controller('productCtrl', function ($scope,$routeParams,DataManager) {
 
   DataManager.loadAll().then(function(data) {
   	  id = $routeParams.id;

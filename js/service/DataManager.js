@@ -6,6 +6,7 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
     var dataManager = {
         _pool: {},
         deferred: false,
+        deferredOrder: false,
         loadAll: function() {
         	var scope = this;
         	if(!scope.deferred) {
@@ -18,6 +19,25 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
 			        });  
 		    }
             return scope.deferred.promise;
+        },
+        loadOrder: function(id) {
+            console.log("id="+id);
+            var scope = this;
+            url = '/admin/order/detail?id='+id;
+            console.log(url);
+
+            if(!scope.deferredOrder) {
+                scope.deferredOrder = $q.defer();
+                $http.get(url)
+                   .then(function(res){
+                      console.log("return from jsonabce");
+                      data = res.data;  
+                      console.log(data);
+                      scope.deferredOrder.resolve(data);      
+                    });  
+            }
+            return scope.deferredOrder.promise;
+
         },
         confirmOrder: function(data) {
 

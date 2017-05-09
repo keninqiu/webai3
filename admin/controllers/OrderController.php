@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Product;
 use app\models\Order;
 use app\models\OrderItem;
 use app\models\OrderSearch;
@@ -32,6 +33,48 @@ class OrderController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionDetail($id) {
+        
+        $order = $this->findModel($id);
+        $orderDetail = OrderItem::find()->where(["order_id" => $id])->all();
+
+        $orderData = [];
+
+
+        $orderDetailData = [];
+        $total_quantity = 0;
+        $total_price = 0;
+        foreach($orderDetail as $item) {
+            
+            $product_id = $item["product_id"];
+            $product = Product::find()->where(["id" => $product_id])->one();
+            $product_name = $product["name"];
+            $price = $product["price"];
+            
+            $quantity = $item["quantity"];
+            $total_quantity += $quantity ;
+            $total_price += $quantity*$price;
+            $orderDetailData[] = [
+                "name" => $product_name,
+                "price" => $price,
+                "quantity" => $quantity
+            ];
+        }
+
+        if($order) {
+            $orderData["id"] = $order["id"];
+            $orderData["name"] = $order["name"];
+            $orderData["price"] = $total_price;
+            $orderData["quantity"] = $total_quantity;
+        }
+
+        $return = [
+            "order" => $orderData,
+            "orderItem" => $orderDetailData
+        ];
+        return json_encode($return);
     }
 
     public function actionConfirm() {
