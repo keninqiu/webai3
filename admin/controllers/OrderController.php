@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Order;
+use app\models\OrderItem;
 use app\models\OrderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -14,6 +15,10 @@ use yii\filters\VerbFilter;
  */
 class OrderController extends Controller
 {
+    public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }    
     /**
      * @inheritdoc
      */
@@ -30,10 +35,31 @@ class OrderController extends Controller
     }
 
     public function actionConfirm() {
-        echo "haha";
-        $post = $request->post();
-        echo json_encode($post);
-        return json_encode($post);
+        $ret = "haha";
+        $postData = Yii::$app->request->post();
+
+        $productInfo = $postData["product"];
+        $order = new Order();
+        $order["name"] = "faesfa";
+        $order["status"] = 0;
+        $order->save();
+        $order_id = $order["id"];
+        $productInfoArray = explode(";", $productInfo);
+        foreach($productInfoArray as $productInfoItem) {
+
+            $idAndNumArray = explode(",", $productInfoItem);
+            if(count($idAndNumArray) != 2) {
+                continue;
+            }
+            $product_id = $idAndNumArray[0];
+            $quantity = $idAndNumArray[1];
+            $orderItem = new OrderItem();
+            $orderItem["order_id"] = $order_id;
+            $orderItem["product_id"] = $product_id;
+            $orderItem["quantity"] = $quantity;
+            $orderItem->save();
+        }
+        return "{\"order_id\":$order_id}";
     }
 
     /**

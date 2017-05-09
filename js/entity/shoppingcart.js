@@ -119,21 +119,11 @@ shoppingCart.prototype.confirm = function (){
 		item = this.items[i];
 		id = item.sku;
 		quantity = item.quantity;
-		data["product"] = id + "," + quantity + ";";
+		data["product"] += (id + "," + quantity + ";");
 	}
 	this.clearItems();
 	return data;
-	/*
-	var form = $('<form/></form>'); 
-	form.attr("action", "/order/confirm"); 
-	form.attr("method", "POST"); form.attr("style", "display:none;"); 
-	this.addFormFields(form, data); 
-	$("body").append(form); 
 
-	this.clearCart = clearCart == null || clearCart; 
-	form.submit(); 
-	form.remove(); 
-	*/
 
 }
 shoppingCart.prototype.checkout = function (serviceName, clearCart) { 
