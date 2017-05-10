@@ -4,7 +4,7 @@
 		<div class="container" ng-controller="galleryCtrl" >
 			<div class="gallery-grids">
 				<div class="col-md-3 gallery-grid" ng-repeat="product in productInfo | filter: filterFunction">
-					<a href="/#!/product/{{product.id}}"><img ng-src="{{product.path}}" class="img-responsive" alt=""/>
+					<a href="/#!/product/{{product.id}}"><img max-height="350" max-width="350" ng-src="{{product.path}}" class="img-responsive" alt=""/>
 					</a>
 					<div class="galy-info">
 						<p translate="{{product.name}}">

@@ -43,7 +43,7 @@ class SettingManager {
         }
         $data["setting"] = $setting;
 
-        $records = Category::find()->all();
+        $records = Category::find()->orderBy(['sequence' => SORT_ASC])->all();
         $category = [];
         foreach($records as $record) {
             $id = $record["id"];
@@ -55,7 +55,7 @@ class SettingManager {
         }
         $data["category"] = $category;    
 
-        $sql = "select product.*,origin.name as origin,product_image.path,brand.name as brand from product,product_image,origin,brand where product_image.product_id=product.id and product.origin_id=origin.id and product.brand_id=brand.id";
+        $sql = "select product.*,origin.name as origin,brand.name as brand from product,origin,brand where  product.origin_id=origin.id and product.brand_id=brand.id";
         $records = self::querySql($sql);
         $product = [];
         foreach($records as $record) {
@@ -68,10 +68,15 @@ class SettingManager {
             $spec = $record["spec"];
             $origin = $record["origin"];
             $brand = $record["brand"];
-            $path = $record["path"];
+            $path = "";
 
-            $sql = "select path from product_image where product_id=$id order by type_id asc";
+            $sql = "select path,type_id from product_image where product_id=$id order by type_id asc";
             $side_path = self::querySql($sql);
+            foreach($side_path as $image) {
+                if($image["type_id"] == 1) {
+                    $path = $image["path"];
+                }
+            }
 
             $sql = "select category_id from category_product where product_id=$id";
             $categories = self::querySql($sql);

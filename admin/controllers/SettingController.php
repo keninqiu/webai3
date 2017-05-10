@@ -51,7 +51,7 @@ class SettingController extends Controller
     }
 
     public function actionJson() {
-        $settingManager = new SettingManager;
+        $settingManager = new SettingManager();
         $settingManager->generateJson();
         return "export data successfully!";
     }

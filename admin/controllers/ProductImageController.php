@@ -91,8 +91,12 @@ class ProductImageController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                $model->save(false);
+                return $this->redirect(['view', 'id' => $model->id]);;
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,

@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property integer $sequence
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -27,6 +28,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
+            [['sequence'], 'integer'],
             [['name'], 'string', 'max' => 50],
         ];
     }
@@ -39,6 +41,7 @@ class Category extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'sequence' => 'Sequence'
         ];
     }
 }
