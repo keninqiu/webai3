@@ -8,7 +8,7 @@ use app\models\PositionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * PositionController implements the CRUD actions for Position model.
  */
@@ -25,7 +25,7 @@ class PositionController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],          
         ];
     }
 

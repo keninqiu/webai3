@@ -8,7 +8,7 @@ use app\models\OrderItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * OrderItemController implements the CRUD actions for OrderItem model.
  */
@@ -25,7 +25,7 @@ class OrderItemController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],            
         ];
     }
 

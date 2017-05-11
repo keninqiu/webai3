@@ -8,7 +8,7 @@ use app\models\SettingLocaleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * SettingLocaleController implements the CRUD actions for SettingLocale model.
  */
@@ -25,7 +25,7 @@ class SettingLocaleController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],           
         ];
     }
 

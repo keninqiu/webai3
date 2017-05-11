@@ -2,14 +2,14 @@ app.controller('CollapseCtrl', function ($scope,DataManager,$translate) {
   $scope.isNavCollapsed = true;
   $scope.isCollapsed = false;
   $scope.isCollapsedHorizontal = false;
-  $scope.selectedLang = 'zh';
+  //$scope.selectedLang = 'zh';
   DataManager.loadAll().then(function(data) {
       console.log(data);
       $scope.category = data.category;
   });
   $scope.changeLang = function(lang) {
   	$translate.use(lang);
-  	$scope.selectedLang = lang;
+    DataManager.language = lang;
   }
 
   $scope.index = function() {

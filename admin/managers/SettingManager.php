@@ -85,6 +85,7 @@ class SettingManager {
                 "name" => $name,
                 "description" => $description,
                 "price" => $price,
+                "price_rmb" => $price*Setting::getCurrency(),
                 "brand_id" => $brand_id,
                 "spec" => $spec,
                 "path" => $path,
@@ -191,6 +192,16 @@ class SettingManager {
             //$full = json_encode($value);
             $path = __DIR__ . "/../../i18n/locale-$index.json";
             file_put_contents($path, $full);
+            $pos = stripos($index,"en");
+            if($pos === 0) {
+                $path = __DIR__ . "/../../i18n/locale-en.json";
+                file_put_contents($path, $full);                
+            }
+            $pos = stripos($index,"zh");
+            if($pos === 0) {
+                $path = __DIR__ . "/../../i18n/locale-zh.json";
+                file_put_contents($path, $full);                
+            }            
         }
         echo "finished";
 	}

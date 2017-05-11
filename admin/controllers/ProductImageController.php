@@ -10,7 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-
+use yii\filters\AccessControl;
 /**
  * ProductImageController implements the CRUD actions for ProductImage model.
  */
@@ -27,7 +27,7 @@ class ProductImageController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],           
         ];
     }
 

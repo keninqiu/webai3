@@ -24,7 +24,9 @@ http://bootsnipp.com/snippets/featured/ecommerce-product-detail
 
 						  <h4 for="example-text-input" class="price col-md-2 col-form-label"><p translate="PRICE" style="display:inline"></p></h4>
 						  <h4 class="price col-md-10">
-						    <p translate="CURRENCY_SYMBOL" style="display:inline"></p>{{product.price}} <p translate="CURRENCY_YUAN" style="display:inline"></p>
+						    <p translate="CURRENCY_SYMBOL" style="display:inline"></p>
+						    {{DataManager.getPrice(product)}}			    
+						    <p translate="CURRENCY_YUAN" style="display:inline"></p>
 						  </h4>						
 						</div>
 

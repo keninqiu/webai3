@@ -8,7 +8,7 @@ use app\models\OriginLocaleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * OriginLocaleController implements the CRUD actions for OriginLocale model.
  */
@@ -25,7 +25,7 @@ class OriginLocaleController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],            
         ];
     }
 

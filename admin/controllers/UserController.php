@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\Query;
+use yii\filters\AccessControl;
 /**
  * CityController implements the CRUD actions for City model.
  */
@@ -27,7 +28,7 @@ class UserController extends Controller
                      'deleteall'=>['post'],
                 ],
               
-            ]
+            ],           
         ];
     }
     

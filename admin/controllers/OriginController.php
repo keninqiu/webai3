@@ -8,7 +8,7 @@ use app\models\OriginSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * OriginController implements the CRUD actions for Origin model.
  */
@@ -25,7 +25,7 @@ class OriginController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],           
         ];
     }
 

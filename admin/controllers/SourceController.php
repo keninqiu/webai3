@@ -18,6 +18,7 @@ use app\components\Logger;
 use app\managers\ProductManager;
 use app\managers\ProductImageManager;
 use app\managers\SettingManager;
+use yii\filters\AccessControl;
 /**
  * SourceController implements the CRUD actions for Source model.
  */
@@ -34,7 +35,7 @@ class SourceController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],            
         ];
     }
 
@@ -432,7 +433,8 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
         $product["name_zh"] = trim($productInfo["name"]);
         $product["description"] = trim($productInfo["description"]);
         $product["description_zh"] = trim($productInfo["description"]);
-        $product["price"] = $productInfo["price"];
+        $product["price"] = $productInfo["price"] + 15;
+        $product["origin_price"] = $productInfo["price"];
         $product["brand_id"] = $brand_id;
         $product["origin_id"] = "2";
         $product["spec"] = $productInfo["spec"];
@@ -542,6 +544,7 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
         $model = new Source();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            actionGenerate();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

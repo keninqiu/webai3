@@ -1,5 +1,4 @@
 app.controller('galleryCtrl', function ($scope,$rootScope,DataManager) {
-
 	$scope.DataManager = DataManager;
   	$scope.$watch('DataManager.searchText', function (newVal, oldVal, scope) {
 	    if(newVal) { 

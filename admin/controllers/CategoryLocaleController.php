@@ -8,7 +8,7 @@ use app\models\CategoryLocaleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * CategoryLocaleController implements the CRUD actions for CategoryLocale model.
  */
@@ -25,7 +25,7 @@ class CategoryLocaleController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],            
         ];
     }
 

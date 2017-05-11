@@ -33,6 +33,15 @@ class Setting extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getCurrency() {
+        $currency = 5.3;
+        $model = Setting::findOne(["name" => "currency"]);
+        if($model) {
+            $currency = $model["value"];
+        }
+        return $currency;
+    }
+    
     /**
      * @inheritdoc
      */

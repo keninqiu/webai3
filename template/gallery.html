@@ -10,7 +10,11 @@
 						<p translate="{{product.name}}">
 						<div class="galry">
 							<div class="prices">
-								<h5 class="item_price">${{product.price}}</h5>
+								<h5 class="item_price">
+								    <text translate="CURRENCY_SYMBOL"></text>
+								    {{DataManager.getPrice(product)}}			    
+								    <text translate="CURRENCY_YUAN"></text>					
+								</h5>
 							</div>
 							<div class="rating">
 							<button class="add-to-cart btn btn-default" type="button" ng-click="cart.addItem(product.id, product.name, product.price, 1)">

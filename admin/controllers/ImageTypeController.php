@@ -8,7 +8,7 @@ use app\models\ImageTypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * ImageTypeController implements the CRUD actions for ImageType model.
  */
@@ -25,7 +25,7 @@ class ImageTypeController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],            
         ];
     }
 

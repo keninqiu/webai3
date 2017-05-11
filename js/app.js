@@ -6,8 +6,8 @@ app.config(['$translateProvider','$routeProvider', function($translateProvider,$
             suffix: '.json'
         }]
     });
-    $translateProvider.preferredLanguage('zh'); 
-    //$translateProvider.determinePreferredLanguage(); 
+    //$translateProvider.preferredLanguage('zh'); 
+    $translateProvider.determinePreferredLanguage(); 
     $translateProvider.useSanitizeValueStrategy('escape');
 
     $routeProvider

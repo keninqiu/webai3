@@ -11,6 +11,7 @@ use app\managers\ProductManager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -28,8 +29,7 @@ class ProductController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
-          
+            ],      
         ];
     }
 

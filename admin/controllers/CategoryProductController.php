@@ -8,7 +8,7 @@ use app\models\CategoryProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * CategoryProductController implements the CRUD actions for CategoryProduct model.
  */
@@ -25,7 +25,7 @@ class CategoryProductController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],            
         ];
     }
 

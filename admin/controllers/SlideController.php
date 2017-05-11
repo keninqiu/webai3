@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-
+use yii\filters\AccessControl;
 /**
  * SlideController implements the CRUD actions for Slide model.
  */
@@ -26,7 +26,7 @@ class SlideController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],           
         ];
     }
 

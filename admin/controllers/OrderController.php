@@ -10,7 +10,7 @@ use app\models\OrderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * OrderController implements the CRUD actions for Order model.
  */
@@ -31,7 +31,7 @@ class OrderController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],            
         ];
     }
 

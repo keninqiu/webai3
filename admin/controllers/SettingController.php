@@ -14,7 +14,7 @@ use app\managers\SettingManager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * SettingController implements the CRUD actions for Setting model.
  */
@@ -31,7 +31,7 @@ class SettingController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],             
         ];
     }
 
@@ -134,4 +134,5 @@ class SettingController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

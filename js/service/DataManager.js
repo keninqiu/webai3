@@ -1,4 +1,4 @@
-app.factory('DataManager', ['$http', '$q','$location',  function($http, $q,$location) {  
+app.factory('DataManager', ['$http', '$q','$location','$translate',  function($http, $q,$location,$translate) {  
 var myStore = new store(); 
 var myCart = new shoppingCart("MyStore"); 
 myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
@@ -39,6 +39,16 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
             return scope.deferredOrder.promise;
 
         },
+        getPrice: function(product) {
+            var scope = this;
+            if(!product) {
+                return 0;
+            }
+            if(scope.language == 'zh_CN' || scope.language == 'zh') {
+                return product.price_rmb;
+            }
+            return product.price;
+        },
         confirmOrder: function(data) {
 
 
@@ -65,6 +75,7 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
         },
         store: myStore, 
         cart: myCart,
+        language: $translate.use(),
         searchText:{}
 
     };

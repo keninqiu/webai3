@@ -8,7 +8,7 @@ use app\models\ModeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * ModeController implements the CRUD actions for Mode model.
  */
@@ -25,7 +25,7 @@ class ModeController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],            
         ];
     }
 

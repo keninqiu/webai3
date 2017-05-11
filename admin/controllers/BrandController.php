@@ -8,6 +8,7 @@ use app\models\BrandSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * BrandController implements the CRUD actions for Brand model.
@@ -25,7 +26,7 @@ class BrandController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],        
         ];
     }
 

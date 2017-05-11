@@ -8,7 +8,7 @@ use app\models\ProductLocaleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * ProductLocaleController implements the CRUD actions for ProductLocale model.
  */
@@ -25,7 +25,7 @@ class ProductLocaleController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
-            ],
+            ],            
         ];
     }
 
