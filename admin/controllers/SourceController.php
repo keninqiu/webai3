@@ -38,8 +38,292 @@ class SourceController extends Controller
         ];
     }
 
+    public function getProductFromBodyShop($source) {
+        $url = "curl $source -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Referer: https://www.thebodyshop.com/en-ca/body/body-cleansers-bath/c/c05386' -H 'Cookie: JSESSIONID=46EE2B318610106BAB2A8E488C4E02F1.app1; JSESSIONID=46EE2B318610106BAB2A8E488C4E02F1.app1; JSESSIONID=46EE2B318610106BAB2A8E488C4E02F1.app1; affiliateSource=Google; gtm_source=Google; gtm_medium=sem_brd; awin_conversion=false Sat, 10 Jun 2017 03:25:34 GMT; mt.utm_params=utm_source%3DGoogle%26utm_medium%3Dsem_brd%26utm_term%3Dbodyshop%26utm_content%3Dnull; k2c_Bodyshop_cids=Bodyshop_AJAO4tQt7VmSGWp; thebodyshop-ca-wishlist=\"\"; s.eVar15=684724097; tduid=undefined; mt.v=2.164356280.1494473135191; _ga=GA1.2.1351056554.1494473135; _gid=GA1.2.196778736.1494473154; _uetsid=_uetac1d4d61; k2c_history=; k2c_chat_a1=3%7C0%7C0; usi_items_in_cart=0; AWSELB=D1412F830465C273C2C58FBA2254AEE47B458A58A12DE7F479BC69884B6CB93B1E474FDE3CD11D886917A687A412C32020070AC59C93A5348E58A05AE7EB20DC8B12407E12E77E9599A4DB2D4DFF3F737E7DCE83DD; usi_subtotal=0; usi_product1=; usi_product2=; usi_product3=; __atuvc=1%7C19; __atuvs=5913d9c465f156e1000; sc_cookie_machine_id=1494473177502270925; sc_cookie_machine_guid=0d7889e0-556f-46cf-b198-c8f3a634fba5; sc_cookie_session_id_081BB555-61B0-4419-93D4-0048A489CB06=J2JUQRYZ-CF5C-F39A-8679-15CF1F70760B; u-upsellitc3198=seenChat; u-upsellit16072=seenChat' -H 'Connection: keep-alive' -H 'Cache-Control: max-age=0' --compressed";
+
+        //Logger::curllog("url=".$url);
+        $response = CurlUtil::raw($url);
+        //$response = str_replace("");
+        Logger::curllog("response=".$response);
+
+        $html = str_get_html($response);
+
+        $name = "";
+        $nameTag = $html->find('h1[itemprop="name"]',0);
+        if($nameTag) {
+            $name = $nameTag->text();
+        }
+        Logger::curllog("name=".$name);
+
+        $spec = "spec";  
+
+        $price = 0;
+        $priceTag = $html->find('span[itemprop="price"]',0);
+        if($priceTag) {
+            $price = $priceTag->text();
+            $price = trim($price);
+            $price = trim($price,"$");
+        }
+        Logger::curllog("price=".$price); 
+
+        $description = "";
+        $descriptionTag = $html->find('div[class="description-container"]',0);
+        if($descriptionTag) {
+            $description = $descriptionTag->text();
+        }
+        Logger::curllog("description=".$description);  
+
+        $image = "";
+        $imageTag = $html->find('div[class="product-media"]',0);
+        if($imageTag) {
+            $imageTag = $imageTag->find('source',0);
+            if($imageTag) {
+                $image = $imageTag->srcset; 
+            }
+
+        }         
+
+        $brand = "BodyShop";
+
+        $ret = [
+            "name" => $name,
+            "description" => $description,
+            "price" => $price,
+            "image" => $image,
+            "brand" => $brand,
+            "source" => $source,
+            "spec" => $spec,
+            "category_id" => "4"
+        ];  
+        Logger::curllog("ret=".json_encode($ret));
+        return $ret;      
+    }
+
+
+    public function getProductFromAldo($source) {
+        $url = "curl $source -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Cache-Control: max-age=0' -H 'Cookie: ADRUM_BT=R:0|g:505c7196-937e-4853-a2bb-6999519c66b017679|i:1648786|e:935|n:aldo_689ee717-e80b-4b94-9833-5714a40e5d2e; optimizelyEndUserId=oeu1494470444739r0.6971643118139337; sessionId=44066754-8c65-43b7-996a-87e00c81569b; BVImplMain%20Site=2022; _gat_UA-49129446-1=1; __CT_Data=gpv=1&apv_39029_www02=1&cpv_39029_www02=1; x-aldo-api-version=2; ROUTEID=.node36; WRIgnore=true; _ga=GA1.2.734782571.1494470449; _gid=GA1.2.409185448.1494470450; _dc_gtm_UA-49129446-1=1; _uetsid=_uet5e0e2ff6; __qca=P0-947519578-1494470450741; liveagent_oref=; liveagent_sid=c12c8673-6802-4750-a407-9d56d14b8a63; liveagent_vc=2; liveagent_ptid=c12c8673-6802-4750-a407-9d56d14b8a63; rCookie=wmvlc5np9e4sg517fav23; ADRUM=s=1494470462314&r=https%3A%2F%2Fwww.aldoshoes.com%2Fca%2Fen%2Fwomen%2Fhandbags%2Ftotes%2FHutcheon-Blue%2Fp%2F49247485-4%3F0' -H 'Connection: keep-alive' --compressed";
+
+        //Logger::curllog("url=".$url);
+        $response = CurlUtil::raw($url);
+        //$response = str_replace("");
+        Logger::curllog("response=".$response);
+
+        $response = str_replace("data-srcset","data_srcset",$response);
+        
+        $html = str_get_html($response);
+
+        $name = "";
+        $nameTag = $html->find('h1[class="c-buy-module__product-title"]',0);
+        if($nameTag) {
+            $name = $nameTag->text();
+        }
+        Logger::curllog("name=".$name);
+
+        $spec = "";
+        $specTag = $html->find('ul[class="c-product-description__section-list"]',0);
+        if($specTag) {
+            $specTag = $specTag->find('li');
+            if($specTag) {
+                foreach($specTag as $liDom) {
+                    $spec = $liDom->text();
+
+                }
+                
+            }
+            
+        }
+        $spec = htmlspecialchars_decode($spec);
+        Logger::curllog("spec=".$spec);      
+
+        $price = 0;
+        $priceTag = $html->find('span[class="c-product-price__formatted-price"]',0);
+        if($priceTag) {
+            $price = $priceTag->text();
+            $price = trim($price);
+            $price = trim($price,"$");
+        }
+        Logger::curllog("price=".$price); 
+
+        $description = "";
+        $descriptionTag = $html->find('div[class="c-product-description__section-content"]',0);
+        if($descriptionTag) {
+            $description = $descriptionTag->text();
+        }
+        Logger::curllog("description=".$description);  
+
+        $image = "";
+        $imageTag = $html->find('meta[property="og:image"]',0);
+        if($imageTag) {
+
+            $image = $imageTag->content;            
+
+
+        }         
+
+        $brand = "Aldo";
+
+        $ret = [
+            "name" => $name,
+            "description" => $description,
+            "price" => $price,
+            "image" => $image,
+            "brand" => $brand,
+            "source" => $source,
+            "spec" => $spec,
+            "category_id" => "4"
+        ];  
+        Logger::curllog("ret=".json_encode($ret));
+        return $ret;      
+    }
+
+
+    public function getProductFromCoach($source) {
+        $url = "curl $source -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Connection: keep-alive' -H 'Accept-Encoding: gzip, deflate, sdch' -H 'Accept-Language: en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36' --compressed";
+
+        //Logger::curllog("url=".$url);
+        $response = CurlUtil::raw($url);
+        //$response = str_replace("");
+        Logger::curllog("response=".$response);
+
+        $html = str_get_html($response);
+
+        $name = "";
+        $nameTag = $html->find('meta[itemprop="name"]',0);
+        if($nameTag) {
+            $name = $nameTag->content;
+        }
+        Logger::curllog("name=".$name);
+
+        $spec = "";
+        $specTag = $html->find('dd[class="productDetails_SF"]',0);
+        if($specTag) {
+            $specTag = $specTag->find('li');
+            if($specTag) {
+                foreach($specTag as $liDom) {
+                    $spec = $liDom->text();
+                }
+                
+            }
+            
+        }
+        Logger::curllog("spec=".$spec);      
+
+        $price = 0;
+        $priceTag = $html->find('span[itemprop="price"]',0);
+        if($priceTag) {
+            $price = $priceTag->text();
+            $price = trim($price);
+            $price = trim($price,"$");
+        }
+        Logger::curllog("price=".$price); 
+
+        $description = "";
+        $descriptionTag = $html->find('p[itemprop="description"]',0);
+        if($descriptionTag) {
+            $description = $descriptionTag->text();
+        }
+        Logger::curllog("description=".$description);  
+
+        $image = "";
+        $imageTag = $html->find('meta[property="og:image"]',0);
+        if($imageTag) {
+            $image = $imageTag->content;
+            $pos = stripos($image,"//");
+            if($pos === 0) {
+                $image = "http:".$image;
+            }
+        }         
+
+        $brand = "Coach";
+
+        $ret = [
+            "name" => $name,
+            "description" => $description,
+            "price" => $price,
+            "image" => $image,
+            "brand" => $brand,
+            "source" => $source,
+            "spec" => $spec,
+            "category_id" => "4"
+        ];  
+        Logger::curllog("ret=".json_encode($ret));
+        return $ret;      
+    }
+
+    public function getProductFromWalmart($source) {
+        $url = "curl $source -H 'accept-encoding: gzip, deflate, sdch, br' -H 'accept-language: en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4' -H 'upgrade-insecure-requests: 1' -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36' -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'cache-control: max-age=0' -H 'authority: www.walmart.ca' -H 'cookie: JSESSIONID=25A9D530973D161897157DEF2519D82E.restapp-108800098-16-114655279; cookieLanguageType=en; deliveryCatchment=1126; marketCatchment=2002; zone=1; originalHttpReferer=; walmart.shippingPostalCode=M6G2W5; walmart.csrf=26e7c11f247270f347e0dbdc00b80b0d0508298a-1494414634828-58ee9871103be0880d39bd95; wmt.c=0; userSegment=50-percent; akaau_P1=1494416434~id=a935530cf468e6b1d723d9b1652c38f8; TBV=7; headerType=whiteGM; _ga=GA1.2.1968641351.1494414904; _gid=GA1.2.2046984240.1494414904; AMCV_C4C6370453309C960A490D44%40AdobeOrg=793872103%7CMCIDTS%7C17297%7CMCMID%7C36175066977475163589214688126478062099%7CMCAID%7CNONE%7CMCAAMLH-1495019704%7C7%7CMCAAMB-1495019704%7CNRX38WO0n5BH8Th-nqAG_A; walmart.id=bf061ada-f187-4fe9-bd01-17545c2d1ccc; usrState=1; previousBreakpoint=desktop; wmt.breakpoint=d; mbox=check#true#1494414964|session#1494414903017-165568#1494416764|PC#1494414903017-165568.17_47#1495624506; walmart.locale=en; areaCode=M6G2W5; pageLoadVisualComplete=4637:1; __gads=ID=de53badaaa475038:T=1494414639:S=ALNI_MZyGpw8vMdllK4WVeEx0YZzbOGWPA; BVImplmain_site=2036; walmart.nearestPostalCode=M6G2W5; s_cc=true; BVBRANDID=cc7d5357-8719-4039-8ffb-f3e3d5d6dce7; BVBRANDSID=0104f7eb-64e3-4617-a446-10a7210d246f; gpv_pagename=Product%3A%20Baby%20Ddrops%C2%AE%20Liquid%20Vitamin%20D3%20Vitamin%20Supplement%2C%20400%20IU; s_ppvl=%5B%5BB%5D%5D; og_session_id=af0a84f8847311e3b233bc764e1107f2.235387.1494414912; og_session_id_conf=af0a84f8847311e3b233bc764e1107f2.235387.1494414912; og_autoship=0; ENV=ak-dal-prod; s_evar16=Desktop; s_nr=1494415172126-New; fsr.s=%7B%22v2%22%3A-2%2C%22v1%22%3A1%2C%22cp%22%3A%7B%22cxreplayaws%22%3A%22true%22%7D%2C%22rid%22%3A%22de35433-94916641-f1b7-0039-b0435%22%2C%22ru%22%3A%22https%3A%2F%2Fwww.walmart.ca%2Fen%2Fip%2Fbaby-ddrops-liquid-vitamin-d3-vitamin-supplement-400-iu%2F6000189783716%3Frrid%3Drichrelevance%22%2C%22r%22%3A%22www.walmart.ca%22%2C%22st%22%3A%22%22%2C%22c%22%3A%22https%3A%2F%2Fwww.walmart.ca%2Fen%2Fip%2Fbaby-ddrops-liquid-vitamin-d3-vitamin-supplement-400-iu%2F6000189783716%22%2C%22pv%22%3A1%2C%22lc%22%3A%7B%22d3%22%3A%7B%22v%22%3A1%2C%22s%22%3Afalse%7D%7D%2C%22cd%22%3A3%2C%22sd%22%3A3%2C%22to%22%3A10%7D; s_ppv=Product%253A%2520Baby%2520Ddrops%25AE%2520Liquid%2520Vitamin%2520D3%2520Vitamin%2520Supplement%252C%2520400%2520IU%2C6%2C14%2C660%2C1270%2C277%2C1280%2C800%2C2%2CL' -H 'referer: https://www.walmart.ca/en/ip/baby-ddrops-liquid-vitamin-d3-vitamin-supplement-400-iu/6000189783716?rrid=richrelevance' --compressed";
+
+        //Logger::curllog("url=".$url);
+        $response = CurlUtil::raw($url);
+        //$response = str_replace("");
+        Logger::curllog("response=".$response);
+
+        $html = str_get_html($response);
+
+        $name = "";
+        $nameTag = $html->find('h1[itemprop="name"]',0);
+        if($nameTag) {
+            $name = $nameTag->text();
+        }
+        Logger::curllog("name=".$name);
+
+        $spec = "";
+        $specTag = $html->find('p[class="description"]',0);
+        if($specTag) {
+            $spec = $specTag->text();
+        }
+        Logger::curllog("spec=".$spec);      
+
+        $price = 0;
+        $priceTag = $html->find('span[itemprop="price"]',0);
+        if($priceTag) {
+            $price = $priceTag->text();
+
+            $price = trim($price,"$");
+        }
+        Logger::curllog("price=".$price); 
+
+        $description = "";
+        $descriptionTag = $html->find('div[itemprop="description"]',0);
+        if($descriptionTag) {
+            $description = $descriptionTag->text();
+        }
+        Logger::curllog("description=".$description);  
+
+        $image = "";
+        $imageTag = $html->find('img[itemprop="image"]',0);
+        if($imageTag) {
+            $image = $imageTag->src;
+            $pos = stripos($image,"//");
+            if($pos === 0) {
+                $image = "http:".$image;
+            }
+        }         
+
+        $brand = "";
+        $brandTag = $html->find('span[itemprop="brand"]',0);
+        if($brandTag) {
+            $brand = $brandTag->text();
+            $brand = trim($brand);
+        }
+
+        $ret = [
+            "name" => $name,
+            "description" => $description,
+            "price" => $price,
+            "image" => $image,
+            "brand" => $brand,
+            "source" => $source,
+            "spec" => $spec
+        ];  
+        Logger::curllog("ret=".json_encode($ret));
+        return $ret;      
+    }
     public function getProductFromCostco($source) {
-        $url = "curl '".$source."' -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Cache-Control: max-age=0' -H 'Cookie: AMCVS_97B21CFE5329614E0A490D45%40AdobeOrg=1; AMCV_97B21CFE5329614E0A490D45%40AdobeOrg=-1330315163%7CMCIDTS%7C17293%7CMCMID%7C33418360481032625714012746240126029856%7CMCAAMLH-1494713041%7C7%7CMCAAMB-1494713041%7CcIBAx_aQzFEHcPoEv0GwcQ%7CMCOPTOUT-1494115441s%7CNONE%7CMCAID%7CNONE; mbox=session#0ced82daa4634e79a0cd3a7698659292#1494110103|PC#0ced82daa4634e79a0cd3a7698659292.17_59#1557353043; ak_bmsc=7EAC08C94E3EE4BC3070AA071E12AD55D194C042304F000053470E59177BAA23~plpDcXX3lUhh1mHp02TvurF/i9sFdG4UIIipBXGxz3qDR9GGFSwyjx/44jk+q0E0L/LRjeP6uUFA2gDRVUeaFXxsAQFQAsML4790XdWFDL2hSliPPi3FKMx10F9nAA66mhk37HreHawOoH6z1c43AfOcAxJmf1yeFbVBrmvOCJpCZYtnJftI8HMIGdUlCWh3lotb39lzUUotMWNcqAaCzzZg==; s_cc=true; __CT_Data=gpv=1&apv_81_www33=1&cpv_81_www33=1; WRIgnore=true; WRUID20170327=0; spid=9B2D7865-4020-4FFA-80B4-CF32322F6F17; sp_ssid=1494108249163; BVImplmain_site=20040; BVBRANDID=8f7cf078-e8aa-42de-9358-4d252d110226; BVBRANDSID=fe1eea93-4aeb-48ea-8f0b-2306bedd6738; s_sq=cwcostcocaprod%3D%2526c.%2526a.%2526activitymap.%2526page%253Dhttps%25253A%25252F%25252Fwww.costco.ca%25252FKirkland-Signature-Krill-Oil-500mg----120-Softgels-.product.100284782.html%2526link%253DSet%252520Language%252520and%252520Region%2526region%253DcostcoModalText%2526.activitymap%2526.a%2526.c; C_LOC=CAAB' -H 'Connection: keep-alive' --compressed";
+        
+        //Logger::curllog("source=".$source);
+        $url = "curl ".$source." -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Cache-Control: max-age=0' -H 'Cookie: AMCVS_97B21CFE5329614E0A490D45%40AdobeOrg=1; AMCV_97B21CFE5329614E0A490D45%40AdobeOrg=-1330315163%7CMCIDTS%7C17293%7CMCMID%7C33418360481032625714012746240126029856%7CMCAAMLH-1494713041%7C7%7CMCAAMB-1494713041%7CcIBAx_aQzFEHcPoEv0GwcQ%7CMCOPTOUT-1494115441s%7CNONE%7CMCAID%7CNONE; mbox=session#0ced82daa4634e79a0cd3a7698659292#1494110103|PC#0ced82daa4634e79a0cd3a7698659292.17_59#1557353043; ak_bmsc=7EAC08C94E3EE4BC3070AA071E12AD55D194C042304F000053470E59177BAA23~plpDcXX3lUhh1mHp02TvurF/i9sFdG4UIIipBXGxz3qDR9GGFSwyjx/44jk+q0E0L/LRjeP6uUFA2gDRVUeaFXxsAQFQAsML4790XdWFDL2hSliPPi3FKMx10F9nAA66mhk37HreHawOoH6z1c43AfOcAxJmf1yeFbVBrmvOCJpCZYtnJftI8HMIGdUlCWh3lotb39lzUUotMWNcqAaCzzZg==; s_cc=true; __CT_Data=gpv=1&apv_81_www33=1&cpv_81_www33=1; WRIgnore=true; WRUID20170327=0; spid=9B2D7865-4020-4FFA-80B4-CF32322F6F17; sp_ssid=1494108249163; BVImplmain_site=20040; BVBRANDID=8f7cf078-e8aa-42de-9358-4d252d110226; BVBRANDSID=fe1eea93-4aeb-48ea-8f0b-2306bedd6738; s_sq=cwcostcocaprod%3D%2526c.%2526a.%2526activitymap.%2526page%253Dhttps%25253A%25252F%25252Fwww.costco.ca%25252FKirkland-Signature-Krill-Oil-500mg----120-Softgels-.product.100284782.html%2526link%253DSet%252520Language%252520and%252520Region%2526region%253DcostcoModalText%2526.activitymap%2526.a%2526.c; C_LOC=CAAB' -H 'Connection: keep-alive' --compressed";
+        //Logger::curllog("url=".$url);
         $response = CurlUtil::raw($url);
 
         $html = str_get_html($response);
@@ -79,25 +363,15 @@ class SourceController extends Controller
             $brand = trim($brand);
         }
 
-        //echo $brand;
-        $brandObj = Brand::find()->where(["name" => $brand])->one();
-        $brand_id = 0;
-
-        if(!$brandObj) {
-            $brandObj = new Brand();
-            $brandObj["name"] = $brand;
-            $brandObj->save();
-
-        }
-        $brand_id = $brandObj["id"];
-        echo "brand_id=$brand_id";
+        $spec = "spec";
         return [
             "name" => $name,
             "description" => $description,
             "price" => $price,
             "image" => $image,
-            "brand_id" => $brand_id,
-            "source" => $source
+            "brand" => $brand,
+            "source" => $source,
+            "spec" => $spec
         ];
     }
 /*
@@ -142,16 +416,28 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
         $model = new Product();
         $product = [];
         echo $productInfo["source"];
+
+        $brand = $productInfo["brand"];
+        $brandObj = Brand::find()->where(["name" => $brand])->one();
+        $brand_id = 0;
+        if(!$brandObj && $brand) {
+            $brandObj = new Brand();
+            $brandObj["name"] = $brand;
+            $brandObj->save();
+
+        }
+        $brand_id = $brandObj&&$brandObj["id"]?$brandObj["id"]:0;
+
         $product["name"] = trim($productInfo["name"]);
         $product["name_zh"] = trim($productInfo["name"]);
         $product["description"] = trim($productInfo["description"]);
         $product["description_zh"] = trim($productInfo["description"]);
         $product["price"] = $productInfo["price"];
-        $product["brand_id"] = $productInfo["brand_id"];
+        $product["brand_id"] = $brand_id;
         $product["origin_id"] = "2";
-        $product["spec"] = "";
-        $product["spec_zh"] = "";
-        $product["category_id"] = "1";
+        $product["spec"] = $productInfo["spec"];
+        $product["spec_zh"] = $productInfo["spec"];
+        $product["category_id"] = isset($product["category_id"])?$product["category_id"]:"1";
         $product["source"] = $productInfo["source"];
         $postData["Product"] = $product;
         $productManager = new ProductManager($model);
@@ -159,7 +445,6 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
         echo "productId=$productId";
         if($productId) {
             $productImageManager = new ProductImageManager($productId);
-            echo "image=".$productInfo["image"];
             $productImageManager->saveImage($productInfo["image"]);              
         }
     }
@@ -177,14 +462,43 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
     public function actionGenerate() {
         $records = Source::find()->all();
         foreach($records as $record) {
+
             $source = $record["url"];
+            echo "source===$source";
+            $source = str_replace("'", "\\'", $source);
+            $source = str_replace("(", "\\(", $source);
+            $source = str_replace(")", "\\)", $source);
             $productWithSource = Product::find()->where(["source" => $source])->one();
             if($productWithSource) {
                 continue;
             }
-
-            $productInfo = self::getProductFromCostco($source);
-            self::handle($productInfo);
+            echo "source===$source";
+            $productInfo = null;
+            $pos = stripos($source,"www.costco.ca");
+            if($pos !== false) {
+                $productInfo = self::getProductFromCostco($source);
+            }
+            $pos = stripos($source,"www.walmart.ca");
+            if($pos !== false) {
+                $productInfo = self::getProductFromWalmart($source);
+            }   
+            $pos = stripos($source,"www.coach.com");
+            if($pos !== false) {
+                $productInfo = self::getProductFromCoach($source);
+            }  
+            $pos = stripos($source,"www.aldoshoes.com");
+            if($pos !== false) {
+                $productInfo = self::getProductFromAldo($source);
+            }   
+            $pos = stripos($source,"www.thebodyshop.com");
+            if($pos !== false) {
+                $productInfo = self::getProductFromBodyShop($source);
+            }               
+            
+            if($productInfo)  {
+                self::handle($productInfo);
+            } 
+            
         }
 
         $settingManager = new SettingManager;

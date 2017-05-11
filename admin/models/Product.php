@@ -38,7 +38,7 @@ class Product extends \yii\db\ActiveRecord
         return [
             [['name', 'price'], 'required'],
             [['price'], 'number'],
-            [['name'], 'string', 'max' => 50],
+            [['name'], 'string', 'max' => 500],
             [['description','spec','source'], 'string'],
             [['brand_id','origin_id'], 'integer'],
         ];

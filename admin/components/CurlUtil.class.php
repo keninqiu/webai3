@@ -33,7 +33,7 @@ namespace app\components;
             //return the transfer as a string
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-			curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; rv:19.0) Gecko/20100101 Firefox/19.0");            
+			curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (compatible;  MSIE 7.01; Windows NT 5.0)");            
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             // $output contains the output string
             $output = curl_exec($ch);
