@@ -8,7 +8,7 @@ class Logger {
             chmod($fileName,0777);
         }
 
-        file_put_contents($fileName , $msg, FILE_APPEND);
+        file_put_contents($fileName , $msg."\n", FILE_APPEND);
         
     }	
 }

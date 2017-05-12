@@ -5,6 +5,7 @@ namespace app\controllers;
 require_once(__DIR__ . '/../lib/simple_html_dom.php');
 require_once(__DIR__ . '/../components/CurlUtil.class.php');
 require_once(__DIR__ . '/../components/Logger.class.php');
+require_once(__DIR__ . '/../components/TranslateUtil.class.php');
 use Yii;
 use app\models\Source;
 use app\models\Product;
@@ -15,6 +16,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\CurlUtil;
 use app\components\Logger;
+use app\components\TranslateUtil;
 use app\managers\ProductManager;
 use app\managers\ProductImageManager;
 use app\managers\SettingManager;
@@ -37,6 +39,71 @@ class SourceController extends Controller
                 ],
             ],            
         ];
+    }
+
+    public function getProductFromMichaelKors($source) {
+        $url = "curl '$source' -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Referer: https://www.google.ca/' -H 'Cookie: AMCVS_3D6068F454E7858C0A4C98A6%40AdobeOrg=1; _ga=GA1.2.1907222121.1494555480; _gid=GA1.2.354137612.1494555482; JSESSIONID=3Gb6bq9i5GdElnNTD8eyFrXLmO8Dikva6h_-qa0TgV1fOGTC1AVR!104871367; ATG_SESSION_ID=3Gb6bq9i5GdElnNTD8eyFrXLmO8Dikva6h_-qa0TgV1fOGTC1AVR!104871367!1494555209570; WLS_ROUTE=.www.h; BVImplmain_site=19826; s_campaign=MKS_Google_CA_Brand_MKO_GOO_ENGL_CA_NCA_T_E_HANDBAGS-ALL_mk_bag; s_cc=true; AMCV_3D6068F454E7858C0A4C98A6%40AdobeOrg=2121618341%7CMCIDTS%7C17299%7CMCMID%7C52436054126959534631589389205561932115%7CMCAAMLH-1495160279%7C7%7CMCAAMB-1495160279%7CNRX38WO0n5BH8Th-nqAG_A%7CMCOPTOUT-1494562679s%7CNONE%7CMCAID%7CNONE%7CMCSYNCSOP%7C411-17306; BVBRANDID=d78d0d6e-d56f-4980-a9e5-21b99b70d451; BVBRANDSID=8cf628fa-2479-4b8f-b5ce-c024127dff56; gig_hasGmid=ver2; productMerchNum=5; _gat_a4783b567b23728578c6a7d0a717c392=1; userPrefLanguage=en_CA; cookieLanguage=en_CA; dtm_pageviews=6; _uetsid=_uetcf08b709; xyz_cr_356_et_100==NaN&cr=356&et=100&ap=; mt.v=2.1688862926.1494555477916; rr_rcs=eF4FwbENgDAMBMAmFbu8hOO3gzdgjShOJAo6YH7uSnnHqRK5JhWtDwNTBYNJ0M3XjF6Dut3fc-Uu0hqEQTNT1sMcTkB-nfMRoQ; s_sq=%5B%5BB%5D%5D; gpv_pn=Home%20%3E%20WOMEN%20%3E%20HANDBAGS%20%3E%20SelmaMediumSaffianoLeatherMessenger; gpv_purl=%2Fselma-medium-saffiano-leather-messenger%2F_%2FR-CA_30T3GLMM2L; gpv_ptyp=Product%20Detail; s_nr=1494555632003-New; s_vs=1; tp=4865; s_ppv=Home%2520%253E%2520WOMEN%2520%253E%2520HANDBAGS%2520%253E%2520SelmaMediumSaffianoLeatherMessenger%2C13%2C13%2C656; RT=\"sl=3&ss=1494555476158&tt=26458&obo=0&bcn=%2F%2F36d7107f.mpstat.us%2F&sh=1494555612967%3D3%3A0%3A26458%2C1494555515675%3D2%3A0%3A23538%2C1494555498241%3D1%3A0%3A20473&dm=michaelkors.ca&si=94e4d133-576d-4158-86a8-09fda3d43d97&nu=https%3A%2F%2Fwww.michaelkors.ca%2Fselma-medium-saffiano-leather-messenger%2F_%2FR-CA_30T3GLMM2L%3Fcolor%3D1663&cl=1494555611884&ld=1494555612968\"' -H 'Connection: keep-alive' -H 'Cache-Control: max-age=0' --compressed";
+
+        //Logger::curllog("url=".$url);
+        $response = CurlUtil::raw($url);
+        //$response = str_replace("");
+        Logger::curllog("response=".$response);
+
+        $html = str_get_html($response);
+
+        $name = "";
+        $nameTag = $html->find('h1[itemprop="name"]',0);
+        if($nameTag) {
+            $name = $nameTag->text();
+        }
+        Logger::curllog("name=".$name);
+
+        $spec = "spec";  
+        $specTag = $html->find('div[class="detail"]',0);
+        if($specTag) {
+            $spec = $specTag->text();
+        }
+
+        $price = 0;
+        $priceTag = $html->find('div[class="salePrice"]',0);
+        if($priceTag) {
+            $price = $priceTag->text();
+            $price = trim($price);
+            $price = trim($price,"$");
+        }
+        Logger::curllog("price=".$price); 
+
+        $description = "";
+        $descriptionTag = $html->find('p[itemprop="description"]',0);
+        if($descriptionTag) {
+            $description = $descriptionTag->text();
+        }
+        Logger::curllog("description=".$description);  
+
+        $image = "";
+        $imageTag = $html->find('div[class="gallery-images"]',0);
+        if($imageTag) {
+            $imageTag = $imageTag->find('img',0);
+            if($imageTag) {
+                $image = $imageTag->src; 
+            }
+
+        }         
+
+        $brand = "MichaelKors";
+
+        $ret = [
+            "name" => $name,
+            "description" => $description,
+            "price" => $price,
+            "image" => $image,
+            "brand" => $brand,
+            "source" => $source,
+            "spec" => $spec,
+            "category_id" => "4"
+        ];  
+        Logger::curllog("ret=".json_encode($ret));
+        return $ret;      
     }
 
     public function getProductFromBodyShop($source) {
@@ -229,10 +296,6 @@ class SourceController extends Controller
         $imageTag = $html->find('meta[property="og:image"]',0);
         if($imageTag) {
             $image = $imageTag->content;
-            $pos = stripos($image,"//");
-            if($pos === 0) {
-                $image = "http:".$image;
-            }
         }         
 
         $brand = "Coach";
@@ -429,16 +492,22 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
         }
         $brand_id = $brandObj&&$brandObj["id"]?$brandObj["id"]:0;
 
-        $product["name"] = trim($productInfo["name"]);
-        $product["name_zh"] = trim($productInfo["name"]);
-        $product["description"] = trim($productInfo["description"]);
-        $product["description_zh"] = trim($productInfo["description"]);
+        $name = trim($productInfo["name"]);
+        $name_zh = TranslateUtil::toChinese($name);
+        $product["name"] = $name;
+        $product["name_zh"] = $name_zh;
+        $description = trim($productInfo["description"]);
+        $description_zh = TranslateUtil::toChinese($description);
+        $product["description"] = $description;
+        $product["description_zh"] = $description_zh;
         $product["price"] = $productInfo["price"] + 15;
         $product["origin_price"] = $productInfo["price"];
         $product["brand_id"] = $brand_id;
         $product["origin_id"] = "2";
-        $product["spec"] = $productInfo["spec"];
-        $product["spec_zh"] = $productInfo["spec"];
+        $spec = trim($productInfo["spec"]);
+        $spec_zh = TranslateUtil::toChinese($spec);
+        $product["spec"] = $spec;
+        $product["spec_zh"] = $spec_zh;
         $product["category_id"] = isset($product["category_id"])?$product["category_id"]:"1";
         $product["source"] = $productInfo["source"];
         $postData["Product"] = $product;
@@ -447,7 +516,13 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
         echo "productId=$productId";
         if($productId) {
             $productImageManager = new ProductImageManager($productId);
-            $productImageManager->saveImage($productInfo["image"]);              
+
+            $image = $productInfo["image"];
+            $pos = stripos($image,"//");
+            if($pos === 0) {
+                $image = "http:".$image;
+            }            
+            $productImageManager->saveImage($image);              
         }
     }
 
@@ -495,7 +570,11 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
             $pos = stripos($source,"www.thebodyshop.com");
             if($pos !== false) {
                 $productInfo = self::getProductFromBodyShop($source);
-            }               
+            }      
+            $pos = stripos($source,"www.michaelkors.ca");
+            if($pos !== false) {
+                $productInfo = self::getProductFromMichaelKors($source);
+            }                        
             
             if($productInfo)  {
                 self::handle($productInfo);
@@ -544,7 +623,7 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
         $model = new Source();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            actionGenerate();
+            self::actionGenerate();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

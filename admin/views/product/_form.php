@@ -19,9 +19,9 @@ use app\models\Category;
 
     <?= $form->field($model, 'name_zh')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'description')->textarea(['rows' => '6']) ?>
 
-    <?= $form->field($model, 'description_zh')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'description_zh')->textarea(['rows' => '6']) ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
