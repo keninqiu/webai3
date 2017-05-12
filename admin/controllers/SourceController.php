@@ -148,7 +148,10 @@ class SourceController extends Controller
         $description = "";
         $descriptionTag = $html->find('div[class="description-container"]',0);
         if($descriptionTag) {
-            $description = $descriptionTag->text();
+            $descriptionTag = $descriptionTag->find('p[itemprop="description"]',0);
+            if($descriptionTag) {
+                $description = $descriptionTag->text();
+            }
         }
         Logger::curllog("description=".$description);  
 
@@ -519,7 +522,7 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
         $spec_zh = TranslateUtil::toChinese($spec);
         $product["spec"] = $spec;
         $product["spec_zh"] = $spec_zh;
-        $product["category_id"] = isset($product["category_id"])?$product["category_id"]:"1";
+        $product["category_id"] = isset($productInfo["category_id"])?$productInfo["category_id"]:"1";
         $product["source"] = $productInfo["source"];
         $postData["Product"] = $product;
         $productManager = new ProductManager($model);

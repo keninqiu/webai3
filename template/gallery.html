@@ -3,11 +3,12 @@
 
 		<div class="container" ng-controller="galleryCtrl" >
 			<div class="gallery-grids">
-				<div class="col-md-3 gallery-grid" ng-repeat="product in productInfo | filter: filterFunction">
+			  <div class="row">
+				<div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="product in productInfo | filter: filterFunction">
 					<a href="/#!/product/{{product.id}}"><img max-height="350" max-width="350" ng-src="{{product.path}}" class="img-responsive" alt=""/>
 					</a>
 					<div class="galy-info">
-						<p translate="{{product.name}}">
+						<p translate="{{product.name}}"></p>
 						<div class="galry">
 							<div class="prices">
 								<h5 class="item_price">
@@ -18,13 +19,14 @@
 							</div>
 							<div class="rating">
 							<button class="add-to-cart btn btn-default" type="button" ng-click="cart.addItem(product.id, product.name, product.price, 1)">
-								<p translate="ADD_TO_CART" style="display:inline">
+								<p translate="ADD_TO_CART" style="display:inline"></p>
 							</button>							
 							</div>						
 							<div class="clearfix"></div>
 						</div>
 					</div>
 				</div>
+			  </div>
 			</div>	
 		</div>
 	<!--//gallery-->
