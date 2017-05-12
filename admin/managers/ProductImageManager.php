@@ -21,6 +21,24 @@ class ProductImageManager {
         }
 
         file_put_contents($imageAbsDir."/main.jpg", file_get_contents($url));
+
+        $im = imagecreatefromjpeg($imageAbsDir."/main.jpg");
+        $sizex = imagesx($im);
+        $sizey = imagesy($im);
+        if($sizex == $sizey) {
+
+        }
+        else {
+          $size = min($sizex, $sizey);
+          $sizeDiff = ($sizex == $size)?($sizey-$size):($sizex-$size);
+
+          $im2 = imagecrop($im, ['x' => 0, 'y' => $sizeDiff, 'width' => $size, 'height' => $size]);
+          if ($im2 !== FALSE) {
+              imagejpeg($im2, $imageAbsDir."/main.jpg");
+          }          
+        }
+
+
         $path = "/admin".$imageDir."/main.jpg";
         $productImage = new ProductImage();
         $productImage["product_id"] = $this->product_id;

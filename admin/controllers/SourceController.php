@@ -47,7 +47,7 @@ class SourceController extends Controller
         //Logger::curllog("url=".$url);
         $response = CurlUtil::raw($url);
         //$response = str_replace("");
-        Logger::curllog("response=".$response);
+       // Logger::curllog("response=".$response);
 
         $html = str_get_html($response);
 
@@ -56,7 +56,7 @@ class SourceController extends Controller
         if($nameTag) {
             $name = $nameTag->text();
         }
-        Logger::curllog("name=".$name);
+       // Logger::curllog("name=".$name);
 
         $spec = "spec";  
         $specTag = $html->find('div[class="detail"]',0);
@@ -65,12 +65,23 @@ class SourceController extends Controller
         }
 
         $price = 0;
-        $priceTag = $html->find('div[class="salePrice"]',0);
-        if($priceTag) {
-            $price = $priceTag->text();
-            $price = trim($price);
-            $price = trim($price,"$");
+        $priceContainerTag = $html->find('div[class="product-price-container"]',0);
+        if($priceContainerTag) {
+            $priceTag = $priceContainerTag->find('div[class="salePrice"]',0);
+            if(!$priceTag) {
+                $priceTag = $priceContainerTag->find('div[class="Price"]',0);
+            }
+            if($priceTag) {
+                $price = $priceTag->text();
+               // Logger::curllog("price here we go=".$price);
+                $price = str_replace("Now","",$price);
+               // Logger::curllog("price here we go2=".$price);
+                $price = trim($price);
+                $price = trim($price,"$");
+            }            
         }
+
+
         Logger::curllog("price=".$price); 
 
         $description = "";
