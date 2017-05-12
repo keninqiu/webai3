@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'nameEn',
+            'nameZh',
             [
                 'attribute' => 'brand_id',
                 'value' => 'brand.name',
@@ -38,7 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'origin_id',
                 'value' => 'origin.name',
                 'filter' => Html::activeDropDownList($searchModel, 'brand_id', [''=>'']+ArrayHelper::map(Origin::find()->all(), 'id', 'name'), ['class' => 'form-control'])
-            ],            
+            ],   
+            'category.name',    
             'price',
             'specEn',
 

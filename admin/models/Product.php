@@ -2,8 +2,10 @@
 
 namespace app\models;
 
-use Yii;
+require_once(__DIR__ . '/../components/Logger.class.php');
 
+use Yii;
+use app\components\Logger;
 /**
  * This is the model class for table "product".
  *
@@ -90,12 +92,12 @@ class Product extends \yii\db\ActiveRecord
         $locale = ProductLocale::find()->where(["product_id" => $this->id,"locale_id" => 2,"name" => "product_".$this->id."_spec"])->one();
         return $locale?$locale->value:"";
     }
-
+    
     public function getCategoryId() {
-        $locale = CategoryProduct::find()->where(["product_id" => $this->id])->one();
-        return $locale?$locale->category_id:"";
+        $categoryProduct = CategoryProduct::find()->where(["product_id" => $this->id])->one();
+        return $categoryProduct?$categoryProduct->category_id:"";
     }
-
+    
     public function getBrand() {
         return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
     }
@@ -103,6 +105,20 @@ class Product extends \yii\db\ActiveRecord
         return $this->hasOne(Origin::className(), ['id' => 'origin_id']);
     }   
     public function getCategory() {
-        return $this->hasOne(Category::className(), ['id' => 'category_id']);
-    }      
+        Logger::log("id==".$this->id);
+        $categoryProduct = CategoryProduct::find()->where(["product_id" => $this->id])->one();
+        Logger::log("category_id==".$categoryProduct["category_id"]);
+
+        if($categoryProduct ) {
+            $category_id = $categoryProduct["category_id"];
+            if($category_id) {
+                Logger::log("111");
+                $category = Category::find()->where(["id" => $category_id])->one();
+                return $category;
+            }
+            
+        }
+        return null;
+    }    
+
 }
