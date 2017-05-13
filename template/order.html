@@ -48,18 +48,15 @@
       <tr>
         <td><p translate="BANK_TRANSFER"></p></td>
         <td>
-          <form action="/your-server-side-code" method="POST">
-          <script
-            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-            data-key="pk_test_xVAqsYMxwh3AZfJcYu1hruyE"
-            data-amount="2000"
-            data-name="Cishop"
-            data-description="We provide the best products online"
-            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-            data-locale="auto"
-            data-currency="cad">
-          </script>
-          </form>         
+          <form stripe:form="saveCustomer">
+            <fieldset>
+              <input type="text" size="20" data-stripe="number"/>
+              <input type="text" size="4" data-stripe="cvc"/>
+              <input type="text" size="2" data-stripe="exp-month"/>
+              <input type="text" size="4" data-stripe="exp-year"/>
+            </fieldset>
+            <button type="submit">Save</button>
+          </form>        
         </td>
         </td>
       </tr>  

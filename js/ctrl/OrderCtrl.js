@@ -5,4 +5,8 @@ app.controller('OrderCtrl', function ($scope,$routeParams,DataManager) {
       $scope.orderItem = response.orderItem;
   });
 
+  $scope.saveCustomer = function(status, response) {
+    $http.post('/save_customer', { token: response.id });
+  };
+  
 });

@@ -1,5 +1,6 @@
-var app = angular.module('app', ['ui.bootstrap','pascalprecht.translate','ngRoute']);
+var app = angular.module('app', ['ui.bootstrap','pascalprecht.translate','ngRoute','stripe']);
 app.config(['$translateProvider','$routeProvider', function($translateProvider,$routeProvider) {
+    Stripe.setPublishableKey('pk_test_xVAqsYMxwh3AZfJcYu1hruyE');
     $translateProvider.useStaticFilesLoader({
         files: [{
             prefix: '/i18n/locale-',
