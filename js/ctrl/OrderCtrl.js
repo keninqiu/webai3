@@ -6,7 +6,9 @@ app.controller('OrderCtrl', function ($scope,$routeParams,DataManager) {
   });
 
   $scope.saveCustomer = function(status, response) {
+  	console.log('response=');
+  	console.log(response);
     $http.post('/save_customer', { token: response.id });
   };
-  
+
 });
