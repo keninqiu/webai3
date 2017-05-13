@@ -392,7 +392,8 @@ class SourceController extends Controller
             "image" => $image,
             "brand" => $brand,
             "source" => $source,
-            "spec" => $spec
+            "spec" => $spec,
+            "crop_type" => "middle"
         ];  
         Logger::curllog("ret=".json_encode($ret));
         return $ret;      
@@ -536,7 +537,8 @@ saveload me{"_csrf":"LUtrOFB5WXdlPht\/PikdAk4cPXIcOzYZQH0caTIDIy5rKjhPJS1tAg==",
             if($pos === 0) {
                 $image = "http:".$image;
             }            
-            $productImageManager->saveImage($image);              
+            $crop_type = isset($productInfo["crop_type"])?$productInfo["crop_type"]:"bottom";
+            $productImageManager->saveImage($image,$crop_type);              
         }
     }
 

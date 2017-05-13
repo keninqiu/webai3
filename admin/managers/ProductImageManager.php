@@ -13,7 +13,7 @@ class ProductImageManager {
    function __construct($productId) {
        $this->product_id = $productId;
    }
-   public function saveImage($url) {
+   public function saveImage($url,$crop_type) {
         $imageDir = '/uploads/' . $this->product_id;
         $imageAbsDir = Yii::getAlias('@app') . $imageDir;
         if(!file_exists($imageAbsDir)) {
@@ -31,8 +31,28 @@ class ProductImageManager {
         else {
           $size = min($sizex, $sizey);
           $sizeDiff = ($sizex == $size)?($sizey-$size):($sizex-$size);
-
-          $im2 = imagecrop($im, ['x' => 0, 'y' => $sizeDiff, 'width' => $size, 'height' => $size]);
+          $im2 = FALSE;
+          if($crop_type == "bottom") {
+            if($sizex > $sizey) {
+                $im2 = imagecrop($im, ['x' => $sizeDiff, 'y' => 0, 'width' => $size, 'height' => $size]);
+            }
+            else {
+                $im2 = imagecrop($im, ['x' => 0, 'y' => $sizeDiff, 'width' => $size, 'height' => $size]);
+            }
+            
+          }
+          else if($crop_type == "middle") {
+            if($sizex > $sizey) {
+                $im2 = imagecrop($im, ['x' => $sizeDiff/2, 'y' => 0, 'width' => $size, 'height' => $size]);
+            }
+            else {
+                $im2 = imagecrop($im, ['x' => 0, 'y' => $sizeDiff/2, 'width' => $size, 'height' => $size]);
+            }            
+          }
+          else {
+            $im2 = imagecrop($im, ['x' => 0, 'y' => 0, 'width' => $size, 'height' => $size]);
+          }
+          
           if ($im2 !== FALSE) {
               imagejpeg($im2, $imageAbsDir."/main.jpg");
           }          

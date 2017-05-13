@@ -18,7 +18,7 @@ class Logger {
 
     public static function curllog($msg) {
     	$fileName = __DIR__ . "/../../logs/curllog.txt";
-    	self::logToFile($filNname,$msg);
+    	self::logToFile($fileName,$msg);
         
     }	
 }
