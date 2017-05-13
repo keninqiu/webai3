@@ -41,7 +41,28 @@
       <tr>
         <td><p translate="BANK_TRANSFER"></p></td>
         <td></td>
-      </tr>              
+      </tr>    
+      <tr>
+        <td><p translate="ONLINE_TRANSFER"></p></td>
+        <td>
+      <tr>
+        <td><p translate="BANK_TRANSFER"></p></td>
+        <td>
+          <form action="/your-server-side-code" method="POST">
+          <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="pk_test_xVAqsYMxwh3AZfJcYu1hruyE"
+            data-amount="2000"
+            data-name="Cishop"
+            data-description="We provide the best products online"
+            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+            data-locale="auto"
+            data-currency="cad">
+          </script>
+          </form>         
+        </td>
+        </td>
+      </tr>  
     </tbody>
   </table>  
 </div>
