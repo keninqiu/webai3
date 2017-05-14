@@ -9,7 +9,7 @@ app.controller('CollapseCtrl', function ($scope,DataManager,$translate) {
       $scope.category = data.category;
       lang_use = $translate.use().trim();
       if(!lang_use || ["zh","zh_CN","en","en_US"].indexOf(lang_use) < 0) {
-        $scope.changeLang('en');
+        $scope.changeLang('zh');
       }      
   });
   $scope.changeLang = function(lang) {
