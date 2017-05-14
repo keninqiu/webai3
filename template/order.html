@@ -1,6 +1,6 @@
 <div class="container"  ng-controller="OrderCtrl">
-  <h2><p translate="ORDER" style="display:inline"></p> - {{order.id}}</h2>
-  <p translate="ORDER_TEXT"></p>            
+  <h3><p translate="ORDER" style="display:inline"></p> - {{order.id}} - <p translate="ORDER_STATUS_{{order.status}}" style="display:inline"></p></h3>
+  <p ng-show="order.status != 1" translate="ORDER_TEXT"></p>            
   <table class="table">
     <thead>
       <tr>
@@ -26,7 +26,7 @@
     </tbody>
   </table>
 
-  <table class="table">
+  <table class="table" ng-show="order.status != 1">
     <thead>
       <tr>
         <th><p translate="PAYMENT_METHOD"></p></th>
@@ -48,18 +48,10 @@
       <tr>
         <td><p translate="BANK_TRANSFER"></p></td>
         <td>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payModal"><p translate="PAY"></p></button>
-        <!--
-          <form stripe:form="saveCustomer">
-            <fieldset>
-              <input type="text" size="20" data-stripe="number"/>
-              <input type="text" size="4" data-stripe="cvc"/>
-              <input type="text" size="2" data-stripe="exp-month"/>
-              <input type="text" size="4" data-stripe="exp-year"/>
-            </fieldset>
-            <button type="submit">Save</button>
-          </form>  
-        -->      
+          <button type="button" class="btn btn-primary" ng-click="showPaymentModal()">
+            <p translate="PAYME"></p>
+          </button>
+     
         </td>
         </td>
       </tr>  
@@ -67,40 +59,3 @@
   </table>  
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Cishop</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="recipient-name" class="form-control-label">number:</label>
-            <input type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="form-control-label">exp-month:</label>
-            <input type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="form-control-label">exp-year:</label>
-            <input type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="form-control-label">cvc:</label>
-            <input type="text" class="form-control">
-          </div>                    
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"><p translate="PAY"></p></button>
-      </div>
-    </div>
-  </div>
-</div>

@@ -49,6 +49,30 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
             }
             return product.price;
         },
+        payOrder: function(number,exp_year,exp_month,cvc,order_id,currency) {
+            var data = {
+                number: number,
+                exp_year: exp_year,
+                exp_month: exp_month,
+                cvc: cvc,
+                order_id: order_id,
+                currency: currency
+            };
+
+            url = "/admin/order/pay";
+            return $http({
+                method: 'POST',
+                url: url,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: data
+            });              
+        },
         confirmOrder: function(data) {
 
 

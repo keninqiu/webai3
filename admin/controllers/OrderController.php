@@ -1,7 +1,9 @@
 <?php
 
 namespace app\controllers;
-
+require_once(__DIR__ . '/../components/Logger.class.php');
+require_once(__DIR__ . '/../components/StripeApi.class.php');
+//require_once(__DIR__ . '/../managers/StripeApi.class.php');
 use Yii;
 use app\models\Product;
 use app\models\Order;
@@ -11,6 +13,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\components\Logger;
+use app\components\StripeApi;
+use app\managers\OrderManager;
 /**
  * OrderController implements the CRUD actions for Order model.
  */
@@ -36,49 +41,83 @@ class OrderController extends Controller
     }
 
     public function actionDetail($id) {
-        
-        $order = $this->findModel($id);
-        $orderDetail = OrderItem::find()->where(["order_id" => $id])->all();
-
-        $orderData = [];
-
-
-        $orderDetailData = [];
-        $total_quantity = 0;
-        $total_price = 0;
-        foreach($orderDetail as $item) {
-            
-            $product_id = $item["product_id"];
-            $product = Product::find()->where(["id" => $product_id])->one();
-            $product_name = $product["name"];
-            $price = $product["price"];
-            
-            $quantity = $item["quantity"];
-            $total_quantity += $quantity ;
-            $total_price += $quantity*$price;
-            $orderDetailData[] = [
-                "name" => $product_name,
-                "price" => $price,
-                "quantity" => $quantity
-            ];
-        }
-
-        if($order) {
-            $orderData["id"] = $order["id"];
-            $orderData["name"] = $order["name"];
-            $orderData["price"] = $total_price;
-            $orderData["quantity"] = $total_quantity;
-        }
-
-        $return = [
-            "order" => $orderData,
-            "orderItem" => $orderDetailData
-        ];
+        $orderManager = new OrderManager();
+        $return = $orderManager->getOrderDetail($id);
         return json_encode($return);
     }
 
+    public function actionPay() {
+        $postData = Yii::$app->request->post();
+
+        $number = $postData["number"];
+        $exp_year = $postData["exp_year"];
+        $exp_month = $postData["exp_month"];
+        $cvc = $postData["cvc"];
+        $order_id = $postData["order_id"];
+        $currency = $postData["currency"];
+
+        $state = -1;
+        $orderManager = new OrderManager();
+        $return = $orderManager->getOrderDetail($order_id);  
+        Logger::curllog("return in actionPay for orderDetail=".json_encode($return)); 
+        if(!isset($return["order"]) || !isset($return["order"]["price"]) || !isset($return["order"]["status"])) {
+            $response = [
+                "state" => $state,
+                "msg" => "cannot get the total price or status of your order!"
+            ];
+            return json_encode($response);
+        }   
+        if($return["order"]["status"] == 1) {
+            $response = [
+                "state" => $state,
+                "msg" => "your order have already been paid!"
+            ];
+            return json_encode($response);            
+        } 
+        $amount = $return["order"]["price"]*100;
+        $stripeApi = new StripeApi();
+        $createTokenResponse = $stripeApi->createToken($number,$exp_month,$exp_year,$cvc);
+
+        $state = -1;
+        $msg = "unknown error";
+
+        $response = [
+            "state" => $state,
+            "msg" => $msg
+        ];
+
+        if($createTokenResponse) {
+            
+            $state = $createTokenResponse["state"];
+            if($state == -1) {
+                $response = $createTokenResponse;
+            }
+            else {
+                $source = $createTokenResponse["token"];
+                if($source) {
+                    $description = "pay in webai";
+                    $createChargeResponse = $stripeApi->createCharge($amount,$currency,$source,$description);
+                    if($createChargeResponse) {
+                        $response = $createChargeResponse;
+                    }                  
+                }                
+            }
+
+         
+        }
+
+        if($response && $response["state"] == 0) {
+            $orderManager->setStatus($order_id,1);
+        }
+        else {
+            $orderManager->setStatus($order_id,-1);
+        }
+
+        return json_encode($response);
+
+    }
+
     public function actionConfirm() {
-        $ret = "haha";
         $postData = Yii::$app->request->post();
 
         $productInfo = $postData["product"];
