@@ -4,13 +4,13 @@ app.controller('CollapseCtrl', function ($scope,DataManager,$translate) {
   $scope.isCollapsedHorizontal = false;
   //$scope.selectedLang = 'zh';
 
-  var lang_use = $translate.use();
-  if(!lang_use) {
-    $translate.use('zh_CN');
-  }
   DataManager.loadAll().then(function(data) {
       console.log(data);
       $scope.category = data.category;
+      lang_use = $translate.use().trim();
+      if(!lang_use || ["zh","zh_CN","en","en_US"].indexOf(lang_use) < 0) {
+        $scope.changeLang('en');
+      }      
   });
   $scope.changeLang = function(lang) {
   	$translate.use(lang);
