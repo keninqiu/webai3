@@ -1,9 +1,15 @@
 app.controller('OrderCtrl', function ($scope,$routeParams,DataManager,paymentModal) {
-  id = $routeParams.id;
-  DataManager.loadOrder(id).then(function(response) {
-      $scope.order = response.order;
-      $scope.orderItem = response.orderItem;
-  });
+	console.log("begin OrderCtrl");
+
+	  id = $routeParams.id;
+	console.log("id==="+id);
+	  DataManager.loadOrder(id).then(function(response) {
+	      $scope.order = response.order;
+	      console.log("order ==== ");
+	      console.log($scope.order);
+	      $scope.orderItem = response.orderItem;
+	  });  
+
 
   $scope.$on('paidResult', function(event, data) {
   	  console.log("data in paidResult");
@@ -15,6 +21,7 @@ app.controller('OrderCtrl', function ($scope,$routeParams,DataManager,paymentMod
       	  $scope.order.status = -1;
       }
   });
+
   $scope.saveCustomer = function(status, response) {
   	console.log('response=');
   	console.log(response);
@@ -25,10 +32,7 @@ app.controller('OrderCtrl', function ($scope,$routeParams,DataManager,paymentMod
   	console.log('showPaymentModal here');
         var modalOptions = {
             closeButtonText: 'Cancel',
-            order_id: id,
-            actionButtonText: 'Delete Customer',
-            headerText: 'Adwords account selection',
-            bodyText: 'Sorry, we can not find a Google Ads account attached to this email address?  Do you want an account set up?'
+            order_id: id        
         };
 
         paymentModal.showModal({}, modalOptions).then(function (result) {

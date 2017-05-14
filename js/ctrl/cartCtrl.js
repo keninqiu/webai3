@@ -1,4 +1,4 @@
-app.controller('cartCtrl', function ($scope,$routeParams,DataManager) {
+app.controller('cartCtrl', function ($scope,$routeParams,DataManager,$route) {
 
 	$scope.store = DataManager.store;
 	$scope.cart = DataManager.cart;
@@ -9,6 +9,8 @@ app.controller('cartCtrl', function ($scope,$routeParams,DataManager) {
  	$scope.confirm = function() {
  		data = $scope.cart.confirm();
  		DataManager.confirmOrder(data);
+
+ 		$route.reload();
  		console.log(data);
  	}
 });

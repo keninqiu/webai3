@@ -1,4 +1,4 @@
-app.controller('CollapseCtrl', function ($scope,DataManager,$translate) {
+app.controller('mainMenuCtrl', function ($scope,DataManager,$translate) {
   $scope.isNavCollapsed = true;
   $scope.isCollapsed = false;
   $scope.isCollapsedHorizontal = false;

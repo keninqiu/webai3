@@ -1,4 +1,4 @@
-<div class="container"  ng-controller="OrderCtrl">
+<div class="container"  ng-controller="OrderCtrl" ng-init="init()">
   <h3><p translate="ORDER" style="display:inline"></p> - {{order.id}} - <p translate="ORDER_STATUS_{{order.status}}" style="display:inline"></p></h3>
   <p ng-show="order.status != 1" translate="ORDER_TEXT"></p>            
   <table class="table">
@@ -50,6 +50,7 @@
           </button>        
         </td>
       </tr>  
+      <!--
       <tr>
         <td><p translate="IDENTITY"></p></td>
         <td>
@@ -59,7 +60,8 @@
   on-error="onError(err)">
 </webcam>       
         </td>
-      </tr>        
+      </tr>  
+      -->      
     </tbody>
   </table>  
 </div>

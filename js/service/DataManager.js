@@ -1,4 +1,4 @@
-app.factory('DataManager', ['$http', '$q','$location','$translate',  function($http, $q,$location,$translate) {  
+app.factory('DataManager', ['$http', '$q','$location','$translate','$route',  function($http, $q,$location,$translate,$route) {  
 var myStore = new store(); 
 var myCart = new shoppingCart("MyStore"); 
 myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
@@ -26,7 +26,6 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
             url = '/admin/order/detail?id='+id;
             console.log(url);
 
-            if(!scope.deferredOrder) {
                 scope.deferredOrder = $q.defer();
                 $http.get(url)
                    .then(function(res){
@@ -34,8 +33,7 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
                       data = res.data;  
                       console.log(data);
                       scope.deferredOrder.resolve(data);      
-                    });  
-            }
+                    });
             return scope.deferredOrder.promise;
 
         },
@@ -94,7 +92,9 @@ myCart.addCheckoutParameters("PayPal", "abc@gmail.com");
                 order_id = response.data.order_id;
                 orderUrl =  "/order/"+ order_id;
                 console.log(orderUrl);
+                $route.reload();
                 $location.path(orderUrl);
+                
             });             
         },
         store: myStore, 
