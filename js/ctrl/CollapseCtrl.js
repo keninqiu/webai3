@@ -3,6 +3,8 @@ app.controller('CollapseCtrl', function ($scope,DataManager,$translate) {
   $scope.isCollapsed = false;
   $scope.isCollapsedHorizontal = false;
   //$scope.selectedLang = 'zh';
+
+  $scope.lang_use = $translate.use();
   DataManager.loadAll().then(function(data) {
       console.log(data);
       $scope.category = data.category;
