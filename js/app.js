@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.bootstrap','pascalprecht.translate','ngRoute']);
+var app = angular.module('app', ['ui.bootstrap','pascalprecht.translate','ngRoute','webcam']);
 app.config(['$translateProvider','$routeProvider', function($translateProvider,$routeProvider) {
     $translateProvider.useStaticFilesLoader({
         files: [{

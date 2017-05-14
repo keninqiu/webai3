@@ -35,4 +35,14 @@ app.controller('OrderCtrl', function ($scope,$routeParams,DataManager,paymentMod
 
         });
   }
+
+  $scope.onError = function (err) {
+  	console.log('onError');
+  };
+  $scope.onStream = function (stream) {
+  	console.log('onStream');
+  };
+  $scope.onSuccess = function () {
+  	console.log('onSuccess');
+  };  
 });
