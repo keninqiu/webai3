@@ -66,9 +66,16 @@ shoppingCart.prototype.loadItems = function () {
 	} 
 } 
 shoppingCart.prototype.saveItems = function () { 
-	if (localStorage != null && JSON != null) { 
-		localStorage[this.cartName + "_items"] = JSON.stringify(this.items); 
-	} 
+	if (typeof localStorage === 'object' && localStorage != null && JSON != null) {
+	    try {
+	        localStorage[this.cartName + "_items"] = JSON.stringify(this.items); 
+	    } catch (e) {
+	        Storage.prototype._setItem = Storage.prototype.setItem;
+	        Storage.prototype.setItem = function() {};
+	        console.log('Your web browser does not support storing settings locally. In Safari, the most common cause of this is using "Private Browsing Mode". Some settings may not save or some features may not work properly for you.');
+	    }
+	}
+
 }
 
 shoppingCart.prototype.getTotalPrice = function (sku) { 
