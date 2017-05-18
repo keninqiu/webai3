@@ -14,6 +14,11 @@ app.config(['$translateProvider','$routeProvider', function($translateProvider,$
     .when("/", {
         templateUrl : "template/main.html"
     })
+     .when("/Dashboards/:dashboardName",{
+        templateUrl:function(params) {
+                     return "themes/" + params.dashboardName+"/main.html";
+            }
+      })    
     .when("/category/:id", {
         templateUrl : "template/category.html"
     })  
