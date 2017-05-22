@@ -26,6 +26,20 @@ class CategoryTypeController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        //'actions' => ['login', 'error'], // Define specific actions
+                        'allow' => true, // Has access
+                        'roles' => ['@'], // '@' All logged in users / or your access role e.g. 'admin', 'user'
+                    ],
+                    [
+                        'allow' => false, // Do not have access
+                        'roles'=>['?'], // Guests '?'
+                    ],
+                ],
+            ],            
         ];
     }
 

@@ -22,7 +22,7 @@ class SiteController extends Controller
                 'actions' => [
                     'logout' => ['post'],
                 ],
-            ],
+            ],           
         ];
     }
 

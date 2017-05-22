@@ -28,7 +28,7 @@ class UserController extends Controller
                      'deleteall'=>['post'],
                 ],
               
-            ],           
+            ],                       
         ];
     }
     
