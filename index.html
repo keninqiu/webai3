@@ -1,125 +1,64 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>Cishop</title>
-	<!-- Custom Theme files -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang="en">
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<script src="assets/js/jquery-3.2.1.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>    
+  </head>
 
-	<meta name="keywords" content="" />
-	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-	<!-- //Custom Theme files -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">	
-	<link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
-	<link href="css/style.css" type="text/css" rel="stylesheet" media="all">
-	<link href="css/app.css" type="text/css" rel="stylesheet" media="all">
-	<link href="css/language.min.css" type="text/css" rel="stylesheet" media="all">
-	<!-- js -->
-    <script src="node_modules/angular/angular.min.js"></script>
-    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
-    <script src="node_modules/angular-route/angular-route.min.js"></script>
-    <script src="node_modules/angular-translate/dist/angular-translate.min.js"></script>
-    <script src="node_modules/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/entity/product.js"></script>
-    <script src="js/entity/store.js"></script>
-    <script src="js/entity/shoppingcart.js"></script>
-    <script src="js/service/DataManager.js"></script>
-    <script src="js/ctrl/CarouselCtrl.js"></script>
-    <script src="js/ctrl/mainMenuCtrl.js"></script>
-    <script src="js/ctrl/galleryCtrl.js"></script>
-    <script src="js/ctrl/productCtrl.js"></script>
-    <script src="js/ctrl/cartCtrl.js"></script>
-    <script src="js/ctrl/headerCtrl.js"></script>
-    <script src="js/ctrl/OrderCtrl.js"></script>
-    <script src="js/directive/mainMenu.js"></script>
-    <script src="js/directive/headerInfo.js"></script>
-    <script src="js/directive/banner.js"></script>
-    <script src="js/directive/gallery.js"></script>
-    <script src="js/filter/searchFilter.js"></script>
-    <script src="js/modal/paymentModal.js"></script>
-    <script src="bower_components/webcam/dist/webcam.min.js"></script>
+  <body>
 
-</head>
-<body ng-app="app">
-	<!--header-->
-	<div class="header">
-		<div class="container">
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/template.html">Template</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Webai</h3>
+      </div>
 
-			<main-menu></main-menu>
-			<header-info></header-info>
-			<div class="clearfix"> </div>
-		</div>
-	</div>
-	<!--//header-->
-	<!--
-	<banner></banner>
-	-->
-	<div ng-view class="view-frame"></div>
+      <div class="jumbotron">
+        <h1 class="display-4">Your idea needs a great website</h1>
+        <p class="lead">Build an amazing website to help your website, ​blog or online store come to life</p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up</a></p>
+      </div>
 
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h4>DOMAIN</h4>
+          <p>Personalized domains to boost your professional brand.</p>
+
+          <h4>HOSTING</h4>
+          <p>Reliable hosting for a secure online experience.</p>
+        </div>
+
+        <div class="col-lg-6">
+          <h4>ANALYTICS</h4>
+          <p>Monthly Google Analytics report for a better insight of your website.</p>
+
+          <h4>CHATBOT</h4>
+          <p>Deliver the seamless experience your customers expect and drive higher engagement and satisfaction across your digital channels.</p>
+
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; Webai 2017</p>
+      </footer>
+
+    </div> <!-- /container -->
 
 
-	<!--footer-->
-	<!--
-	<div class="footer">
-		<div class="container">
-			<div class="footer-grids">
-				<div class="col-md-2 footer-grid">
-					<h4>company</h4>
-					<ul>
-						<li><a href="products.html">products</a></li>
-						<li><a href="#">Work Here</a></li>
-						<li><a href="#">Team</a></li>
-						<li><a href="#">Happenings</a></li>
-						<li><a href="#">Dealer Locator</a></li>
-					</ul>
-				</div>
-				<div class="col-md-2 footer-grid">
-					<h4>service</h4>
-					<ul>
-						<li><a href="#">Support</a></li>
-						<li><a href="#">FAQ</a></li>
-						<li><a href="#">Warranty</a></li>
-						<li><a href="contact.html">Contact Us</a></li>
-					</ul>
-				</div>
-				<div class="col-md-3 footer-grid">
-					<h4>order & returns</h4>
-					<ul>
-						<li><a href="#">Order Status</a></li>
-						<li><a href="#">Shipping Policy</a></li>
-						<li><a href="#">Return Policy</a></li>
-						<li><a href="#">Digital Gift Card</a></li>
-					</ul>
-				</div>
-				<div class="col-md-2 footer-grid">
-					<h4>legal</h4>
-					<ul>
-						<li><a href="#">Privacy</a></li>
-						<li><a href="#">Terms and Conditions</a></li>
-						<li><a href="#">Social Responsibility</a></li>
-					</ul>
-				</div>
-				<div class="col-md-3 footer-grid icons">
-					<h4>Connect with Us</h4>
-					<ul>
-						<li><a href="#"><img src="images/i1.png" alt=""/>Follow us on Facebook</a></li>
-						<li><a href="#"><img src="images/i2.png" alt=""/>Follow us on Twitter</a></li>
-						<li><a href="#"><img src="images/i3.png" alt=""/>Follow us on Google-plus</a></li>
-						<li><a href="#"><img src="images/i4.png" alt=""/>Follow us on Pinterest</a></li>
-					</div>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-		</div>
-	</div>
-	-->
-	<!--//footer-->
-	<div class="footer-bottom">
-		<div class="container">
-			<p translate="COPYRIGHT"></p>
-		</div>
-	</div>
-</body>
+  </body>  
 </html>
